@@ -19,8 +19,7 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
-bin
-!bin/roslyn/
+proyecto/bin/es/
 proyecto/bin/proyecto.dll
 proyecto/bin/proyecto.dll.config
 [Dd]ebug*/
