@@ -28,7 +28,28 @@ namespace proyecto.Models
 				while (rdr.Read())
 				{
 					locations.Data _locations= new locations.Data();
-					_locations.identification = Convert.ToString(rdr["identification"].ToString());
+					_locations.identification = Convert.ToString(rdr["IDENTIFICATION"].ToString());
+					_locations.description = Convert.ToString(rdr["DESCRIPTION"].ToString());
+					_locations.type = Convert.ToString(rdr["TYPE"].ToString());
+					_locations.enabled = Convert.ToInt32(rdr["ENABLED"].ToString());
+					_locations.address = Convert.ToString(rdr["ADDRESS"].ToString());
+					_locations.zipcode = Convert.ToString(rdr["ZIPCODE"].ToString());
+					_locations.city = Convert.ToString(rdr["CITY"].ToString());
+					_locations.city_code = Convert.ToString(rdr["CITY_CODE"].ToString());
+					_locations.state = Convert.ToString(rdr["STATE"].ToString());
+					_locations.state_code = Convert.ToString(rdr["STATE_CODE"].ToString());
+					_locations.country = Convert.ToString(rdr["COUNTRY"].ToString());
+					_locations.identificationprovider = Convert.ToString(rdr["IDENTIFICATIONPROVIDER"].ToString());
+					_locations.email = Convert.ToString(rdr["EMAIL"].ToString());
+					_locations.areacode = Convert.ToString(rdr["AREACODE"].ToString());
+					_locations.geocoordinates = Convert.ToString(rdr["GEOCOORDINATES"].ToString());
+					_locations.replanishmentemail = Convert.ToString(rdr["REPLANISHMENTEMAIL"].ToString());
+					_locations.calendarid = Convert.ToInt32(rdr["CALENDARID"].ToString());
+					_locations.locationtypeid = Convert.ToInt32(rdr["LOCATIONTYPEID"].ToString());
+					_locations.createtimestamp = Convert.ToDateTime(rdr["CREATETIMESTAMP"].ToString());
+					_locations.updatetimestamp = Convert.ToDateTime(rdr["UPDATETIMESTAMP"].ToString());
+					_locations.createuser = Convert.ToString(rdr["CREATEUSER"].ToString());
+					_locations.updateuser = Convert.ToString(rdr["UPDATEUSER"].ToString());
 					lstlocations.Add(_locations);
 				}
 				Base.CerrarConexion(SqlCnn);
@@ -126,10 +147,6 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@description", _locations.description);
 				SqlCmd.Parameters.AddWithValue("@type", _locations.type);
 				SqlCmd.Parameters.AddWithValue("@enabled", _locations.enabled);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locations.createtimestamp);
-				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locations.updatetimestamp);
-				SqlCmd.Parameters.AddWithValue("@createuser", _locations.createuser);
-				SqlCmd.Parameters.AddWithValue("@updateuser", _locations.updateuser);
 				SqlCmd.Parameters.AddWithValue("@address", _locations.address);
 				SqlCmd.Parameters.AddWithValue("@zipcode", _locations.zipcode);
 				SqlCmd.Parameters.AddWithValue("@city", _locations.city);
@@ -190,10 +207,6 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@description", _locations.description);
 				SqlCmd.Parameters.AddWithValue("@type", _locations.type);
 				SqlCmd.Parameters.AddWithValue("@enabled", _locations.enabled);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locations.createtimestamp);
-				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locations.updatetimestamp);
-				SqlCmd.Parameters.AddWithValue("@createuser", _locations.createuser);
-				SqlCmd.Parameters.AddWithValue("@updateuser", _locations.updateuser);
 				SqlCmd.Parameters.AddWithValue("@address", _locations.address);
 				SqlCmd.Parameters.AddWithValue("@zipcode", _locations.zipcode);
 				SqlCmd.Parameters.AddWithValue("@city", _locations.city);
