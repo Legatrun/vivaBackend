@@ -29,6 +29,12 @@ namespace proyecto.Models
 				{
 					calendar.Data _calendar= new calendar.Data();
 					_calendar.id = Convert.ToInt32(rdr["id"].ToString());
+					_calendar.identification = Convert.ToString(rdr["identification"].ToString());
+					_calendar.description = Convert.ToString(rdr["description"].ToString());
+					_calendar.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
+					_calendar.updatetimestamp = Convert.ToDateTime(rdr["updatetimestamp"].ToString());
+					_calendar.createuser = Convert.ToString(rdr["createuser"].ToString());
+					_calendar.updateuser = Convert.ToString(rdr["updateuser"].ToString());
 					lstcalendar.Add(_calendar);
 				}
 				Base.CerrarConexion(SqlCnn);
