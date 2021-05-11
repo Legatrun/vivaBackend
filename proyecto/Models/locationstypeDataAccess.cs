@@ -29,7 +29,10 @@ namespace proyecto.Models
 				{
 					locationstype.Data _locationstype= new locationstype.Data();
 					_locationstype.id = Convert.ToInt32(rdr["id"].ToString());
-					lstlocationstype.Add(_locationstype);
+                    _locationstype.identification = Convert.ToString(rdr["identification"].ToString());
+                    _locationstype.description = Convert.ToString(rdr["description"].ToString());
+                    _locationstype.calendarid = Convert.ToInt32(rdr["calendarid"].ToString());
+                    lstlocationstype.Add(_locationstype);
 				}
 				Base.CerrarConexion(SqlCnn);
 				_state.error = 0;
@@ -122,14 +125,9 @@ namespace proyecto.Models
 				SqlCnn = Base.AbrirConexion();
 				SqlCommand SqlCmd = new SqlCommand("Proc_locationstype_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlCmd.Parameters.AddWithValue("@id", _locationstype.id);
 				SqlCmd.Parameters.AddWithValue("@identification", _locationstype.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _locationstype.description);
 				SqlCmd.Parameters.AddWithValue("@calendarid", _locationstype.calendarid);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locationstype.createtimestamp);
-				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locationstype.updatetimestamp);
-				SqlCmd.Parameters.AddWithValue("@createuser", _locationstype.createuser);
-				SqlCmd.Parameters.AddWithValue("@updateuser", _locationstype.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
 				Base.CerrarConexion(SqlCnn);
