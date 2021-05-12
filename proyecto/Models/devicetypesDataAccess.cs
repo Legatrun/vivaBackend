@@ -29,6 +29,9 @@ namespace proyecto.Models
 				{
 					devicetypes.Data _devicetypes= new devicetypes.Data();
 					_devicetypes.identification = Convert.ToString(rdr["identification"].ToString());
+					_devicetypes.identification = Convert.ToString(rdr["description"].ToString());
+					_devicetypes.identification = Convert.ToString(rdr["enabled"].ToString());
+					_devicetypes.identification = Convert.ToString(rdr["configuration"].ToString());
 					lstdevicetypes.Add(_devicetypes);
 				}
 				Base.CerrarConexion(SqlCnn);
@@ -125,10 +128,10 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@identification", _devicetypes.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _devicetypes.description);
 				SqlCmd.Parameters.AddWithValue("@enabled", _devicetypes.enabled);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
-				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
-				SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
-				SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
+				//SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
+				//SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
+				//SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
+				//SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
 				SqlCmd.Parameters.AddWithValue("@configuration", _devicetypes.configuration);
 
 				SqlCmd.ExecuteNonQuery();
@@ -175,10 +178,10 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@identification", _devicetypes.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _devicetypes.description);
 				SqlCmd.Parameters.AddWithValue("@enabled", _devicetypes.enabled);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
-				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
-				SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
-				SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
+				//SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
+				//SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
+				//SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
+				//SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
 				SqlCmd.Parameters.AddWithValue("@configuration", _devicetypes.configuration);
 
 				SqlCmd.ExecuteNonQuery();
