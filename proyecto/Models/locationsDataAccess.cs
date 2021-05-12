@@ -46,10 +46,12 @@ namespace proyecto.Models
 					_locations.replanishmentemail = Convert.ToString(rdr["REPLANISHMENTEMAIL"].ToString());
 					_locations.calendarid = Convert.ToInt32(rdr["CALENDARID"].ToString());
 					_locations.locationtypeid = Convert.ToInt32(rdr["LOCATIONTYPEID"].ToString());
+                    /*
 					_locations.createtimestamp = Convert.ToDateTime(rdr["CREATETIMESTAMP"].ToString());
 					_locations.updatetimestamp = Convert.ToDateTime(rdr["UPDATETIMESTAMP"].ToString());
 					_locations.createuser = Convert.ToString(rdr["CREATEUSER"].ToString());
 					_locations.updateuser = Convert.ToString(rdr["UPDATEUSER"].ToString());
+                    */
 					lstlocations.Add(_locations);
 				}
 				Base.CerrarConexion(SqlCnn);

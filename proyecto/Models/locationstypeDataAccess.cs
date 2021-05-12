@@ -174,10 +174,12 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@identification", _locationstype.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _locationstype.description);
 				SqlCmd.Parameters.AddWithValue("@calendarid", _locationstype.calendarid);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locationstype.createtimestamp);
+
+			/*	SqlCmd.Parameters.AddWithValue("@createtimestamp", _locationstype.createtimestamp);
 				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locationstype.updatetimestamp);
 				SqlCmd.Parameters.AddWithValue("@createuser", _locationstype.createuser);
 				SqlCmd.Parameters.AddWithValue("@updateuser", _locationstype.updateuser);
+                */
 
 				SqlCmd.ExecuteNonQuery();
 				Base.CerrarConexion(SqlCnn);
