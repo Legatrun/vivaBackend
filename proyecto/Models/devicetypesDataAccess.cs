@@ -29,9 +29,9 @@ namespace proyecto.Models
 				{
 					devicetypes.Data _devicetypes= new devicetypes.Data();
 					_devicetypes.identification = Convert.ToString(rdr["identification"].ToString());
-					_devicetypes.identification = Convert.ToString(rdr["description"].ToString());
-					_devicetypes.identification = Convert.ToString(rdr["enabled"].ToString());
-					_devicetypes.identification = Convert.ToString(rdr["configuration"].ToString());
+					_devicetypes.description = Convert.ToString(rdr["description"].ToString());
+					_devicetypes.enabled = Convert.ToInt32(rdr["enabled"].ToString());
+					_devicetypes.configuration = Convert.ToString(rdr["configuration"].ToString());
 					lstdevicetypes.Add(_devicetypes);
 				}
 				Base.CerrarConexion(SqlCnn);
