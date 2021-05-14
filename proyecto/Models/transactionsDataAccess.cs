@@ -29,7 +29,37 @@ namespace proyecto.Models
 				{
 					transactions.Data _transactions= new transactions.Data();
 					_transactions.id = Convert.ToInt32(rdr["id"].ToString());
-					lsttransactions.Add(_transactions);
+					_transactions.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
+					_transactions.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
+					_transactions.servicename = Convert.ToString(rdr["servicename"].ToString());
+					_transactions.operationname = Convert.ToString(rdr["operationname"].ToString());
+					_transactions.sequencenumber = Convert.ToInt32(rdr["sequencenumber"].ToString());
+					_transactions.resultcode = Convert.ToInt32(rdr["resultcode"].ToString());
+					_transactions.resultmessage = Convert.ToString(rdr["resultmessage"].ToString());
+					_transactions.provideridentification = Convert.ToString(rdr["provideridentification"].ToString());
+					_transactions.providertransactionid = Convert.ToString(rdr["providertransactionid"].ToString());
+					_transactions.devicetransactionid = Convert.ToString(rdr["devicetransactionid"].ToString());
+					_transactions.providerresultcode = Convert.ToString(rdr["providerresultcode"].ToString());
+					_transactions.providerresultmessage = Convert.ToString(rdr["providerresultmessage"].ToString());
+					_transactions.batchnumber = Convert.ToInt32(rdr["batchnumber"].ToString());
+					_transactions.deviceidentificationprovider = Convert.ToString(rdr["deviceidentificationprovider"].ToString());
+					_transactions.locationidentificationprovider = Convert.ToString(rdr["locationidentificationprovider"].ToString());
+					_transactions.customernumber = Convert.ToString(rdr["customernumber"].ToString());
+					_transactions.amount = Convert.ToInt32(rdr["amount"].ToString());
+					_transactions.amountentered = Convert.ToInt32(rdr["amountentered"].ToString());
+					_transactions.amountreturned = Convert.ToInt32(rdr["amountreturned"].ToString());
+					_transactions.amountticketundelivered = Convert.ToInt32(rdr["amountticketundelivered"].ToString());
+					_transactions.operationstatus = Convert.ToInt32(rdr["operationstatus"].ToString());
+					_transactions.amountentereddetail = Convert.ToString(rdr["amountentereddetail"].ToString());
+					_transactions.amountreturneddetail = Convert.ToString(rdr["amountreturneddetail"].ToString());
+					_transactions.amountticketundelivereddetail = Convert.ToString(rdr["amountticketundelivereddetail"].ToString());
+					_transactions.transactionidentification = Convert.ToString(rdr["transactionidentification"].ToString());
+					_transactions.customercode = Convert.ToString(rdr["customercode"].ToString());
+					_transactions.canceled = Convert.ToInt32(rdr["canceled"].ToString());
+					_transactions.canceledtimestamp = Convert.ToDateTime(rdr["canceledtimestamp"].ToString());
+					_transactions.providersequencenumber = Convert.ToInt32(rdr["providersequencenumber"].ToString());
+					_transactions.cardsdispensed = Convert.ToInt32(rdr["cardsdispensed"].ToString());
+                    lsttransactions.Add(_transactions);
 				}
 				Base.CerrarConexion(SqlCnn);
 				_state.error = 0;
