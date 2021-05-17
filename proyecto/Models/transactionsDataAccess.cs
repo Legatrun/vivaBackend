@@ -29,6 +29,7 @@ namespace proyecto.Models
 				{
 					transactions.Data _transactions= new transactions.Data();
 					_transactions.id = Convert.ToInt32(rdr["id"].ToString());
+					_transactions.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
                     _transactions.deviceidentification = !rdr.IsDBNull(1) ? Convert.ToString(rdr["deviceidentification"].ToString()) : ""; 
 					_transactions.locationidentification = !rdr.IsDBNull(2) ? Convert.ToString(rdr["locationidentification"].ToString()) : "";
 					_transactions.servicename = !rdr.IsDBNull(3) ? Convert.ToString(rdr["servicename"].ToString()) : "";
