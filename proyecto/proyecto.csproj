@@ -190,6 +190,7 @@
     <Compile Include="Controllers\locationstypeController.cs" />
     <Compile Include="Controllers\mailingaddressController.cs" />
     <Compile Include="Controllers\providerController.cs" />
+    <Compile Include="Controllers\reportsController.cs" />
     <Compile Include="Controllers\tb_gruposController.cs" />
     <Compile Include="Controllers\tb_histpwdController.cs" />
     <Compile Include="Controllers\tb_paramsController.cs" />
@@ -252,6 +253,8 @@
     <Compile Include="Models\mailingaddressDataAccess.cs" />
     <Compile Include="Models\provider.cs" />
     <Compile Include="Models\providerDataAccess.cs" />
+    <Compile Include="Models\reports.cs" />
+    <Compile Include="Models\reportsDataAccess.cs" />
     <Compile Include="Models\tb_grupos.cs" />
     <Compile Include="Models\tb_gruposDataAccess.cs" />
     <Compile Include="Models\tb_histpwd.cs" />
@@ -376,7 +379,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57170</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:57170/</IISUrl>
+          <IISUrl>http://localhost:57171/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
