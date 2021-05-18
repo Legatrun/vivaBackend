@@ -29,17 +29,47 @@ namespace proyecto.Helpers
         public class SQLParams
         {
             private Log _log = new Log();
+
             public SQLParams(){
+              
+            }
+
+            public string GetConnectionString(string provider)
+            {
+                string SQLServerConnectionString = "";
                 try
                 {
-                    SQLServerConnectionString = ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString;
+                    switch (provider) {
+                        case "SQLSERVER":
+                            SQLServerConnectionString = ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString;
+                            break;
+                        case "MYSQL":
+                            SQLServerConnectionString = ConfigurationManager.ConnectionStrings["MYSQLConnection"].ConnectionString;
+                            break;
+                        case "SQLITE":
+                            SQLServerConnectionString = ConfigurationManager.ConnectionStrings["SQLITEConnection"].ConnectionString;
+                            break;
+                        case "ORACLE":
+                            SQLServerConnectionString = ConfigurationManager.ConnectionStrings["ORACLEConnection"].ConnectionString;
+                            break;
+                    }
                 }
-                catch (Exception ex) {
-                    _log.Error(ex.Message,"-1");
+                catch (Exception ex)
+                {
+                    _log.Error(ex.Message, "-1");
                 }
+                return "";
             }
 
             public System.String SQLServerConnectionString { get; set; }
+
+            public enum SqlProvider
+            {
+                SQLSERVER,
+                MYSQL,
+                SQLITE,
+                ORACLE,
+            }
         }
         public class ActiveDirectoryParams
         {
