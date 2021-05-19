@@ -58,7 +58,7 @@ namespace proyecto
             catch (Exception ex)
             {
                 _log.Error(ex.Message, "-1");
-                return databaseConnection;
+                throw new Exception("Error al Abrir la Conexion a la Base de Datos");
             }
         }
 
