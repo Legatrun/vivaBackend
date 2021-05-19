@@ -249,6 +249,7 @@
     <Compile Include="Models\locations.cs" />
     <Compile Include="Models\locationsDataAccess.cs" />
     <Compile Include="Models\locationstype.cs" />
+    <Compile Include="Models\locationstypeDataMySqlAccess.cs" />
     <Compile Include="Models\locationstypeDataAccess.cs" />
     <Compile Include="Models\mailingaddress.cs" />
     <Compile Include="Models\mailingaddressDataAccess.cs" />

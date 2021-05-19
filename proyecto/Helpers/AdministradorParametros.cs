@@ -53,6 +53,8 @@ namespace proyecto.Helpers
                             SQLServerConnectionString = ConfigurationManager.ConnectionStrings["ORACLEConnection"].ConnectionString;
                             break;
                     }
+
+                    return SQLServerConnectionString;
                 }
                 catch (Exception ex)
                 {
@@ -67,8 +69,6 @@ namespace proyecto.Helpers
             {
                 SQLSERVER,
                 MYSQL,
-                SQLITE,
-                ORACLE,
             }
         }
         public class ActiveDirectoryParams

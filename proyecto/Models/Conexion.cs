@@ -62,7 +62,7 @@ namespace proyecto
             }
         }
 
-        private void CerrarConexionMySql(MySqlConnection Cnn)
+        public void CerrarConexionMySql(MySqlConnection Cnn)
         {
             try
             {
