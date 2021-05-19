@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -20,43 +21,35 @@ namespace proyecto.Models
 			List<devicetypes.Data> lstdevicetypes = new List<devicetypes.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicetypes_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicetypes_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					devicetypes.Data _devicetypes= new devicetypes.Data();
 					_devicetypes.identification = Convert.ToString(rdr["identification"].ToString());
-					_devicetypes.description = Convert.ToString(rdr["description"].ToString());
+					_devicetypes.description = !rdr.IsDBNull(1) ? Convert.ToString(rdr["description"].ToString()) : "";
 					_devicetypes.enabled = Convert.ToInt32(rdr["enabled"].ToString());
-					_devicetypes.configuration = Convert.ToString(rdr["configuration"].ToString());
+					_devicetypes.createtimestamp = !rdr.IsDBNull(3) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : System.DateTime.Now;
+					_devicetypes.updatetimestamp = !rdr.IsDBNull(4) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_devicetypes.createuser = !rdr.IsDBNull(5) ? Convert.ToString(rdr["createuser"].ToString()) : "";
+					_devicetypes.updateuser = !rdr.IsDBNull(6) ? Convert.ToString(rdr["updateuser"].ToString()) : "";
+					_devicetypes.configuration = !rdr.IsDBNull(7) ? Convert.ToString(rdr["configuration"].ToString()) : "";
 					lstdevicetypes.Add(_devicetypes);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Consultar devicetypes", _state.error.ToString());
 				return new devicetypes(_state, lstdevicetypes);
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -72,41 +65,36 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Buscar devicetypes", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicetypes_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicetypes_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlCmd.Parameters.AddWithValue("@identification", _devicetypesData.identification);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				SqlCmd.Parameters.AddWithValue("@pIDENTIFICATION", _devicetypesData.identification);
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					devicetypes.Data _devicetypes= new devicetypes.Data();
 					_devicetypes.identification = Convert.ToString(rdr["identification"].ToString());
+					_devicetypes.description = !rdr.IsDBNull(1) ? Convert.ToString(rdr["description"].ToString()) : "";
+					_devicetypes.enabled = Convert.ToInt32(rdr["enabled"].ToString());
+					_devicetypes.createtimestamp = !rdr.IsDBNull(3) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : System.DateTime.Now;
+					_devicetypes.updatetimestamp = !rdr.IsDBNull(4) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_devicetypes.createuser = !rdr.IsDBNull(5) ? Convert.ToString(rdr["createuser"].ToString()) : "";
+					_devicetypes.updateuser = !rdr.IsDBNull(6) ? Convert.ToString(rdr["updateuser"].ToString()) : "";
+					_devicetypes.configuration = !rdr.IsDBNull(7) ? Convert.ToString(rdr["configuration"].ToString()) : "";
 					lstdevicetypes.Add(_devicetypes);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar devicetypes", _state.error.ToString());
 				return new devicetypes(_state, lstdevicetypes);
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -121,42 +109,30 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Insertar devicetypes", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicetypes_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicetypes_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@identification", _devicetypes.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _devicetypes.description);
 				SqlCmd.Parameters.AddWithValue("@enabled", _devicetypes.enabled);
-				//SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
-				//SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
-				//SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
-				//SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
+				SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
+				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
+				SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
+				SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
 				SqlCmd.Parameters.AddWithValue("@configuration", _devicetypes.configuration);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar devicetypes", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Insertar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -171,42 +147,30 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Actualizar devicetypes", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicetypes_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicetypes_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@identification", _devicetypes.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _devicetypes.description);
 				SqlCmd.Parameters.AddWithValue("@enabled", _devicetypes.enabled);
-				//SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
-				//SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
-				//SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
-				//SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
+				SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicetypes.createtimestamp);
+				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _devicetypes.updatetimestamp);
+				SqlCmd.Parameters.AddWithValue("@createuser", _devicetypes.createuser);
+				SqlCmd.Parameters.AddWithValue("@updateuser", _devicetypes.updateuser);
 				SqlCmd.Parameters.AddWithValue("@configuration", _devicetypes.configuration);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar devicetypes", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Actualizar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -221,35 +185,23 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Eliminar devicetypes", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicetypes_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicetypes_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@identification", _devicetypes.identification);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar devicetypes", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Eliminar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{

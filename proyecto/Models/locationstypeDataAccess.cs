@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -20,43 +21,35 @@ namespace proyecto.Models
 			List<locationstype.Data> lstlocationstype = new List<locationstype.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locationstype_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locationstype_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					locationstype.Data _locationstype= new locationstype.Data();
 					_locationstype.id = Convert.ToInt32(rdr["id"].ToString());
-                    _locationstype.identification = Convert.ToString(rdr["identification"].ToString());
-                    _locationstype.description = Convert.ToString(rdr["description"].ToString());
-                    _locationstype.calendarid = Convert.ToInt32(rdr["calendarid"].ToString());
-                    lstlocationstype.Add(_locationstype);
+					_locationstype.identification = Convert.ToString(rdr["identification"].ToString());
+					_locationstype.description = !rdr.IsDBNull(2) ? Convert.ToString(rdr["description"].ToString()) : "";
+					_locationstype.calendarid = !rdr.IsDBNull(3) ? Convert.ToInt32(rdr["calendarid"].ToString()) : (System.Int32)0;
+					_locationstype.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
+					_locationstype.updatetimestamp = !rdr.IsDBNull(5) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_locationstype.createuser = Convert.ToString(rdr["createuser"].ToString());
+					_locationstype.updateuser = Convert.ToString(rdr["updateuser"].ToString());
+					lstlocationstype.Add(_locationstype);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Consultar locationstype", _state.error.ToString());
 				return new locationstype(_state, lstlocationstype);
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -72,41 +65,36 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Buscar locationstype", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locationstype_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locationstype_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlCmd.Parameters.AddWithValue("@id", _locationstypeData.id);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				SqlCmd.Parameters.AddWithValue("@pID", _locationstypeData.id);
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					locationstype.Data _locationstype= new locationstype.Data();
 					_locationstype.id = Convert.ToInt32(rdr["id"].ToString());
+					_locationstype.identification = Convert.ToString(rdr["identification"].ToString());
+					_locationstype.description = !rdr.IsDBNull(2) ? Convert.ToString(rdr["description"].ToString()) : "";
+					_locationstype.calendarid = !rdr.IsDBNull(3) ? Convert.ToInt32(rdr["calendarid"].ToString()) : (System.Int32)0;
+					_locationstype.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
+					_locationstype.updatetimestamp = !rdr.IsDBNull(5) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_locationstype.createuser = Convert.ToString(rdr["createuser"].ToString());
+					_locationstype.updateuser = Convert.ToString(rdr["updateuser"].ToString());
 					lstlocationstype.Add(_locationstype);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar locationstype", _state.error.ToString());
 				return new locationstype(_state, lstlocationstype);
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -121,37 +109,35 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Insertar locationstype", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locationstype_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locationstype_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
+				MySqlParameter pID = new MySqlParameter();
+				pID.ParameterName = "@ID";
+				pID.Value = 0;
+				SqlCmd.Parameters.Add(pID);
+				pID.Direction = System.Data.ParameterDirection.Output;
 				SqlCmd.Parameters.AddWithValue("@identification", _locationstype.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _locationstype.description);
 				SqlCmd.Parameters.AddWithValue("@calendarid", _locationstype.calendarid);
+				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locationstype.createtimestamp);
+				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locationstype.updatetimestamp);
+				SqlCmd.Parameters.AddWithValue("@createuser", _locationstype.createuser);
+				SqlCmd.Parameters.AddWithValue("@updateuser", _locationstype.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				_locationstype.id = (System.Int32)pID.Value;
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar locationstype", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Insertar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -166,42 +152,30 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Actualizar locationstype", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locationstype_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locationstype_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _locationstype.id);
 				SqlCmd.Parameters.AddWithValue("@identification", _locationstype.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _locationstype.description);
 				SqlCmd.Parameters.AddWithValue("@calendarid", _locationstype.calendarid);
-			/*	SqlCmd.Parameters.AddWithValue("@createtimestamp", _locationstype.createtimestamp);
+				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locationstype.createtimestamp);
 				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locationstype.updatetimestamp);
 				SqlCmd.Parameters.AddWithValue("@createuser", _locationstype.createuser);
 				SqlCmd.Parameters.AddWithValue("@updateuser", _locationstype.updateuser);
-                */
+
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar locationstype", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Actualizar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -216,35 +190,23 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Eliminar locationstype", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locationstype_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locationstype_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _locationstype.id);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar locationstype", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Eliminar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{

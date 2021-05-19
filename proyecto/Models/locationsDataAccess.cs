@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -20,63 +21,49 @@ namespace proyecto.Models
 			List<locations.Data> lstlocations = new List<locations.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locations_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locations_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					locations.Data _locations= new locations.Data();
-					_locations.identification = Convert.ToString(rdr["IDENTIFICATION"].ToString());
-					_locations.description = Convert.ToString(rdr["DESCRIPTION"].ToString());
-					_locations.type = Convert.ToString(rdr["TYPE"].ToString());
-					_locations.enabled = Convert.ToInt32(rdr["ENABLED"].ToString());
-					_locations.address = Convert.ToString(rdr["ADDRESS"].ToString());
-					_locations.zipcode = Convert.ToString(rdr["ZIPCODE"].ToString());
-					_locations.city = Convert.ToString(rdr["CITY"].ToString());
-					_locations.city_code = Convert.ToString(rdr["CITY_CODE"].ToString());
-					_locations.state = Convert.ToString(rdr["STATE"].ToString());
-					_locations.state_code = Convert.ToString(rdr["STATE_CODE"].ToString());
-					_locations.country = Convert.ToString(rdr["COUNTRY"].ToString());
-					_locations.identificationprovider = Convert.ToString(rdr["IDENTIFICATIONPROVIDER"].ToString());
-					_locations.email = Convert.ToString(rdr["EMAIL"].ToString());
-					_locations.areacode = Convert.ToString(rdr["AREACODE"].ToString());
-					_locations.geocoordinates = Convert.ToString(rdr["GEOCOORDINATES"].ToString());
-					_locations.replanishmentemail = Convert.ToString(rdr["REPLANISHMENTEMAIL"].ToString());
-					_locations.calendarid = Convert.ToInt32(rdr["CALENDARID"].ToString());
-					_locations.locationtypeid = Convert.ToInt32(rdr["LOCATIONTYPEID"].ToString());
-                    /*
-					_locations.createtimestamp = Convert.ToDateTime(rdr["CREATETIMESTAMP"].ToString());
-					_locations.updatetimestamp = Convert.ToDateTime(rdr["UPDATETIMESTAMP"].ToString());
-					_locations.createuser = Convert.ToString(rdr["CREATEUSER"].ToString());
-					_locations.updateuser = Convert.ToString(rdr["UPDATEUSER"].ToString());
-                    */
+					_locations.identification = Convert.ToString(rdr["identification"].ToString());
+					_locations.description = !rdr.IsDBNull(1) ? Convert.ToString(rdr["description"].ToString()) : "";
+					_locations.type = !rdr.IsDBNull(2) ? Convert.ToString(rdr["type"].ToString()) : "";
+					_locations.enabled = Convert.ToInt32(rdr["enabled"].ToString());
+					_locations.createtimestamp = !rdr.IsDBNull(4) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : System.DateTime.Now;
+					_locations.updatetimestamp = !rdr.IsDBNull(5) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_locations.createuser = !rdr.IsDBNull(6) ? Convert.ToString(rdr["createuser"].ToString()) : "";
+					_locations.updateuser = !rdr.IsDBNull(7) ? Convert.ToString(rdr["updateuser"].ToString()) : "";
+					_locations.address = !rdr.IsDBNull(8) ? Convert.ToString(rdr["address"].ToString()) : "";
+					_locations.zipcode = !rdr.IsDBNull(9) ? Convert.ToString(rdr["zipcode"].ToString()) : "";
+					_locations.city = !rdr.IsDBNull(10) ? Convert.ToString(rdr["city"].ToString()) : "";
+					_locations.city_code = !rdr.IsDBNull(11) ? Convert.ToString(rdr["city_code"].ToString()) : "";
+					_locations.state = !rdr.IsDBNull(12) ? Convert.ToString(rdr["state"].ToString()) : "";
+					_locations.state_code = !rdr.IsDBNull(13) ? Convert.ToString(rdr["state_code"].ToString()) : "";
+					_locations.country = !rdr.IsDBNull(14) ? Convert.ToString(rdr["country"].ToString()) : "";
+					_locations.identificationprovider = !rdr.IsDBNull(15) ? Convert.ToString(rdr["identificationprovider"].ToString()) : "";
+					_locations.email = !rdr.IsDBNull(16) ? Convert.ToString(rdr["email"].ToString()) : "";
+					_locations.areacode = !rdr.IsDBNull(17) ? Convert.ToString(rdr["areacode"].ToString()) : "";
+					_locations.geocoordinates = !rdr.IsDBNull(18) ? Convert.ToString(rdr["geocoordinates"].ToString()) : "";
+					_locations.replanishmentemail = !rdr.IsDBNull(19) ? Convert.ToString(rdr["replanishmentemail"].ToString()) : "";
+					_locations.calendarid = !rdr.IsDBNull(20) ? Convert.ToInt32(rdr["calendarid"].ToString()) : (System.Int32)0;
+					_locations.locationtypeid = !rdr.IsDBNull(21) ? Convert.ToInt32(rdr["locationtypeid"].ToString()) : (System.Int32)0;
 					lstlocations.Add(_locations);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Consultar locations", _state.error.ToString());
 				return new locations(_state, lstlocations);
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -92,41 +79,50 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Buscar locations", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locations_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locations_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlCmd.Parameters.AddWithValue("@identification", _locationsData.identification);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				SqlCmd.Parameters.AddWithValue("@pIDENTIFICATION", _locationsData.identification);
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					locations.Data _locations= new locations.Data();
 					_locations.identification = Convert.ToString(rdr["identification"].ToString());
+					_locations.description = !rdr.IsDBNull(1) ? Convert.ToString(rdr["description"].ToString()) : "";
+					_locations.type = !rdr.IsDBNull(2) ? Convert.ToString(rdr["type"].ToString()) : "";
+					_locations.enabled = Convert.ToInt32(rdr["enabled"].ToString());
+					_locations.createtimestamp = !rdr.IsDBNull(4) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : System.DateTime.Now;
+					_locations.updatetimestamp = !rdr.IsDBNull(5) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_locations.createuser = !rdr.IsDBNull(6) ? Convert.ToString(rdr["createuser"].ToString()) : "";
+					_locations.updateuser = !rdr.IsDBNull(7) ? Convert.ToString(rdr["updateuser"].ToString()) : "";
+					_locations.address = !rdr.IsDBNull(8) ? Convert.ToString(rdr["address"].ToString()) : "";
+					_locations.zipcode = !rdr.IsDBNull(9) ? Convert.ToString(rdr["zipcode"].ToString()) : "";
+					_locations.city = !rdr.IsDBNull(10) ? Convert.ToString(rdr["city"].ToString()) : "";
+					_locations.city_code = !rdr.IsDBNull(11) ? Convert.ToString(rdr["city_code"].ToString()) : "";
+					_locations.state = !rdr.IsDBNull(12) ? Convert.ToString(rdr["state"].ToString()) : "";
+					_locations.state_code = !rdr.IsDBNull(13) ? Convert.ToString(rdr["state_code"].ToString()) : "";
+					_locations.country = !rdr.IsDBNull(14) ? Convert.ToString(rdr["country"].ToString()) : "";
+					_locations.identificationprovider = !rdr.IsDBNull(15) ? Convert.ToString(rdr["identificationprovider"].ToString()) : "";
+					_locations.email = !rdr.IsDBNull(16) ? Convert.ToString(rdr["email"].ToString()) : "";
+					_locations.areacode = !rdr.IsDBNull(17) ? Convert.ToString(rdr["areacode"].ToString()) : "";
+					_locations.geocoordinates = !rdr.IsDBNull(18) ? Convert.ToString(rdr["geocoordinates"].ToString()) : "";
+					_locations.replanishmentemail = !rdr.IsDBNull(19) ? Convert.ToString(rdr["replanishmentemail"].ToString()) : "";
+					_locations.calendarid = !rdr.IsDBNull(20) ? Convert.ToInt32(rdr["calendarid"].ToString()) : (System.Int32)0;
+					_locations.locationtypeid = !rdr.IsDBNull(21) ? Convert.ToInt32(rdr["locationtypeid"].ToString()) : (System.Int32)0;
 					lstlocations.Add(_locations);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar locations", _state.error.ToString());
 				return new locations(_state, lstlocations);
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -141,14 +137,18 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Insertar locations", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locations_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locations_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@identification", _locations.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _locations.description);
 				SqlCmd.Parameters.AddWithValue("@type", _locations.type);
 				SqlCmd.Parameters.AddWithValue("@enabled", _locations.enabled);
+				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locations.createtimestamp);
+				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locations.updatetimestamp);
+				SqlCmd.Parameters.AddWithValue("@createuser", _locations.createuser);
+				SqlCmd.Parameters.AddWithValue("@updateuser", _locations.updateuser);
 				SqlCmd.Parameters.AddWithValue("@address", _locations.address);
 				SqlCmd.Parameters.AddWithValue("@zipcode", _locations.zipcode);
 				SqlCmd.Parameters.AddWithValue("@city", _locations.city);
@@ -165,28 +165,16 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@locationtypeid", _locations.locationtypeid);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar locations", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Insertar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -201,14 +189,18 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Actualizar locations", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locations_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locations_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@identification", _locations.identification);
 				SqlCmd.Parameters.AddWithValue("@description", _locations.description);
 				SqlCmd.Parameters.AddWithValue("@type", _locations.type);
 				SqlCmd.Parameters.AddWithValue("@enabled", _locations.enabled);
+				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locations.createtimestamp);
+				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locations.updatetimestamp);
+				SqlCmd.Parameters.AddWithValue("@createuser", _locations.createuser);
+				SqlCmd.Parameters.AddWithValue("@updateuser", _locations.updateuser);
 				SqlCmd.Parameters.AddWithValue("@address", _locations.address);
 				SqlCmd.Parameters.AddWithValue("@zipcode", _locations.zipcode);
 				SqlCmd.Parameters.AddWithValue("@city", _locations.city);
@@ -225,28 +217,16 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@locationtypeid", _locations.locationtypeid);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar locations", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Actualizar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
@@ -261,35 +241,23 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Eliminar locations", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_locations_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_locations_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@identification", _locations.identification);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar locations", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
+			catch (MySqlException XcpSQL)
 			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Eliminar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
+				_state.error = -2;
+				_state.descripcion = "Error: "+XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
 			}
 			catch (Exception Ex)
 			{
