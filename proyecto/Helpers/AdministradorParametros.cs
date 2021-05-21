@@ -43,6 +43,9 @@ namespace proyecto.Helpers
                         case "SQLSERVER":
                             SQLServerConnectionString = ConfigurationManager.ConnectionStrings["SQLConnection"].ConnectionString;
                             break;
+                        case "SQLSERVERCON2":
+                            SQLServerConnectionString = ConfigurationManager.ConnectionStrings["SQLConnectionSeguridad"].ConnectionString;
+                            break;
                         case "MYSQL":
                             SQLServerConnectionString = ConfigurationManager.ConnectionStrings["MYSQLConnection"].ConnectionString;
                             break;
@@ -68,6 +71,7 @@ namespace proyecto.Helpers
             public enum SqlProvider
             {
                 SQLSERVER,
+                SQLSERVERCON2,
                 MYSQL,
             }
         }
