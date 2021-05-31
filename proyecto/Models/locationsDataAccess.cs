@@ -83,7 +83,7 @@ namespace proyecto.Models
 				SqlCnn = Base.AbrirConexionMySql();
 				MySqlCommand SqlCmd = new MySqlCommand("Proc_locations_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlCmd.Parameters.AddWithValue("@pIDENTIFICATION", _locationsData.identification);
+				SqlCmd.Parameters.AddWithValue("IDENTIFICATION", _locationsData.identification);
 				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{

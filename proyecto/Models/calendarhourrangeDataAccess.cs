@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -20,18 +21,18 @@ namespace proyecto.Models
 			List<calendarhourrange.Data> lstcalendarhourrange = new List<calendarhourrange.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendarhourrange_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendarhourrange_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					calendarhourrange.Data _calendarhourrange= new calendarhourrange.Data();
 					_calendarhourrange.id = Convert.ToInt32(rdr["id"].ToString());
 					lstcalendarhourrange.Add(_calendarhourrange);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Consultar calendarhourrange", _state.error.ToString());
@@ -69,19 +70,19 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Buscar calendarhourrange", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendarhourrange_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendarhourrange_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendarhourrangeData.id);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					calendarhourrange.Data _calendarhourrange= new calendarhourrange.Data();
 					_calendarhourrange.id = Convert.ToInt32(rdr["id"].ToString());
 					lstcalendarhourrange.Add(_calendarhourrange);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar calendarhourrange", _state.error.ToString());
@@ -118,9 +119,9 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Insertar calendarhourrange", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendarhourrange_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendarhourrange_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendarhourrange.id);
 				SqlCmd.Parameters.AddWithValue("@fromhour", _calendarhourrange.fromhour);
@@ -135,7 +136,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@updateuser", _calendarhourrange.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar calendarhourrange", _state.error.ToString());
@@ -171,9 +172,9 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Actualizar calendarhourrange", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendarhourrange_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendarhourrange_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendarhourrange.id);
 				SqlCmd.Parameters.AddWithValue("@fromhour", _calendarhourrange.fromhour);
@@ -188,7 +189,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@updateuser", _calendarhourrange.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar calendarhourrange", _state.error.ToString());
@@ -224,14 +225,14 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Eliminar calendarhourrange", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendarhourrange_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendarhourrange_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendarhourrange.id);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar calendarhourrange", _state.error.ToString());
