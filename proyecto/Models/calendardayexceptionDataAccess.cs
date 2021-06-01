@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -20,18 +21,18 @@ namespace proyecto.Models
 			List<calendardayexception.Data> lstcalendardayexception = new List<calendardayexception.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendardayexception_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendardayexception_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					calendardayexception.Data _calendardayexception= new calendardayexception.Data();
 					_calendardayexception.id = Convert.ToInt32(rdr["id"].ToString());
 					lstcalendardayexception.Add(_calendardayexception);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Consultar calendardayexception", _state.error.ToString());
@@ -69,19 +70,19 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Buscar calendardayexception", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendardayexception_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendardayexception_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendardayexceptionData.id);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					calendardayexception.Data _calendardayexception= new calendardayexception.Data();
 					_calendardayexception.id = Convert.ToInt32(rdr["id"].ToString());
 					lstcalendardayexception.Add(_calendardayexception);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar calendardayexception", _state.error.ToString());
@@ -118,9 +119,9 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Insertar calendardayexception", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendardayexception_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendardayexception_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendardayexception.id);
 				SqlCmd.Parameters.AddWithValue("@day", _calendardayexception.day);
@@ -132,7 +133,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@updateuser", _calendardayexception.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar calendardayexception", _state.error.ToString());
@@ -168,9 +169,9 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Actualizar calendardayexception", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendardayexception_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendardayexception_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendardayexception.id);
 				SqlCmd.Parameters.AddWithValue("@day", _calendardayexception.day);
@@ -182,7 +183,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@updateuser", _calendardayexception.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar calendardayexception", _state.error.ToString());
@@ -218,14 +219,14 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Eliminar calendardayexception", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_calendardayexception_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendardayexception_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _calendardayexception.id);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar calendardayexception", _state.error.ToString());
