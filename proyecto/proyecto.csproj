@@ -167,6 +167,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AgenciasController.cs" />
+    <Compile Include="Controllers\AplicacionesController.cs" />
+    <Compile Include="Controllers\AplicacionesOpModulosController.cs" />
     <Compile Include="Controllers\applicationdefinitionController.cs" />
     <Compile Include="Controllers\AutenticacionController.cs" />
     <Compile Include="Controllers\batchesController.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="Controllers\calendardayexceptionController.cs" />
     <Compile Include="Controllers\calendarhourrangeController.cs" />
     <Compile Include="Controllers\calendarversionController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\dayofweekController.cs" />
     <Compile Include="Controllers\devicealarmsController.cs" />
     <Compile Include="Controllers\deviceinstalationController.cs" />
@@ -185,13 +189,22 @@
     <Compile Include="Controllers\devicestatuscolletionsresumeController.cs" />
     <Compile Include="Controllers\devicetypesController.cs" />
     <Compile Include="Controllers\eventsController.cs" />
+    <Compile Include="Controllers\GrpUsrRolesInstitucionesController.cs" />
+    <Compile Include="Controllers\GrpUsuarioController.cs" />
+    <Compile Include="Controllers\GrupoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InstitucionesController.cs" />
+    <Compile Include="Controllers\InstitucionesRolesController.cs" />
     <Compile Include="Controllers\jobsController.cs" />
     <Compile Include="Controllers\locationsController.cs" />
     <Compile Include="Controllers\locationstypeController.cs" />
     <Compile Include="Controllers\mailingaddressController.cs" />
+    <Compile Include="Controllers\ModulosController.cs" />
+    <Compile Include="Controllers\OperacionesController.cs" />
     <Compile Include="Controllers\providerController.cs" />
     <Compile Include="Controllers\reportsController.cs" />
+    <Compile Include="Controllers\RolesAplicacionesController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\tb_gruposController.cs" />
     <Compile Include="Controllers\tb_histpwdController.cs" />
     <Compile Include="Controllers\tb_paramsController.cs" />
@@ -200,6 +213,7 @@
     <Compile Include="Controllers\tb_usuariosController.cs" />
     <Compile Include="Controllers\transactiondefinitionController.cs" />
     <Compile Include="Controllers\transactionsController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,6 +221,12 @@
     <Compile Include="Helpers\Encriptador.cs" />
     <Compile Include="Helpers\Notificaciones.cs" />
     <Compile Include="Helpers\Log.cs" />
+    <Compile Include="Models\Agencias.cs" />
+    <Compile Include="Models\AgenciasDataAccess.cs" />
+    <Compile Include="Models\Aplicaciones.cs" />
+    <Compile Include="Models\AplicacionesDataAccess.cs" />
+    <Compile Include="Models\AplicacionesOpModulos.cs" />
+    <Compile Include="Models\AplicacionesOpModulosDataAccess.cs" />
     <Compile Include="Models\applicationdefinition.cs" />
     <Compile Include="Models\applicationdefinitionDataAccess.cs" />
     <Compile Include="Models\Autenticacion.cs" />
@@ -221,6 +241,8 @@
     <Compile Include="Models\calendarhourrangeDataAccess.cs" />
     <Compile Include="Models\calendarversion.cs" />
     <Compile Include="Models\calendarversionDataAccess.cs" />
+    <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\ClienteDataAccess.cs" />
     <Compile Include="Models\Conexion.cs" />
     <Compile Include="Models\dayofweek.cs" />
     <Compile Include="Models\dayofweekDataAccess.cs" />
@@ -244,6 +266,16 @@
     <Compile Include="Models\devicetypesDataAccess.cs" />
     <Compile Include="Models\events.cs" />
     <Compile Include="Models\eventsDataAccess.cs" />
+    <Compile Include="Models\GrpUsrRolesInstituciones.cs" />
+    <Compile Include="Models\GrpUsrRolesInstitucionesDataAccess.cs" />
+    <Compile Include="Models\GrpUsuario.cs" />
+    <Compile Include="Models\GrpUsuarioDataAccess.cs" />
+    <Compile Include="Models\Grupo.cs" />
+    <Compile Include="Models\GrupoDataAccess.cs" />
+    <Compile Include="Models\Instituciones.cs" />
+    <Compile Include="Models\InstitucionesDataAccess.cs" />
+    <Compile Include="Models\InstitucionesRoles.cs" />
+    <Compile Include="Models\InstitucionesRolesDataAccess.cs" />
     <Compile Include="Models\jobs.cs" />
     <Compile Include="Models\jobsDataAccess.cs" />
     <Compile Include="Models\locations.cs" />
@@ -252,10 +284,18 @@
     <Compile Include="Models\locationstypeDataAccess.cs" />
     <Compile Include="Models\mailingaddress.cs" />
     <Compile Include="Models\mailingaddressDataAccess.cs" />
+    <Compile Include="Models\Modulos.cs" />
+    <Compile Include="Models\ModulosDataAccess.cs" />
+    <Compile Include="Models\Operaciones.cs" />
+    <Compile Include="Models\OperacionesDataAccess.cs" />
     <Compile Include="Models\provider.cs" />
     <Compile Include="Models\providerDataAccess.cs" />
     <Compile Include="Models\reports.cs" />
     <Compile Include="Models\reportsDataAccess.cs" />
+    <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\RolesAplicaciones.cs" />
+    <Compile Include="Models\RolesAplicacionesDataAccess.cs" />
+    <Compile Include="Models\RolesDataAccess.cs" />
     <Compile Include="Models\tb_grupos.cs" />
     <Compile Include="Models\tb_gruposDataAccess.cs" />
     <Compile Include="Models\tb_histpwd.cs" />
@@ -272,6 +312,8 @@
     <Compile Include="Models\transactiondefinitionDataAccess.cs" />
     <Compile Include="Models\transactions.cs" />
     <Compile Include="Models\transactionsDataAccess.cs" />
+    <Compile Include="Models\Usuarios.cs" />
+    <Compile Include="Models\UsuariosDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -311,7 +353,9 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

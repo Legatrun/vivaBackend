@@ -75,5 +75,22 @@ namespace proyecto
                 throw new Exception("Error al Cerrar la Conexion a la Base de Datos");
             }
         }
+
+        public SqlConnection AbrirConexionSeguridad()
+        {
+            SqlConnection Cnn = new SqlConnection();
+            try
+            {
+                string SQLConnection = administradorParametros.GetConnectionString(AdministradorParametros.SQLParams.SqlProvider.SQLSERVERCON2.ToString());
+                Cnn.ConnectionString = SQLConnection;
+                Cnn.Open();
+                return Cnn;
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex.Message, "-1");
+                throw new Exception("Error al Abrir la Conexion a la Base de Datos");
+            }
+        }
     }
 }
