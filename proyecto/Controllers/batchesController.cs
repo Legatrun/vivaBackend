@@ -20,14 +20,22 @@ namespace proyecto.Controllers
 		{
 			return objbatches.Consultarbatches();
 		}
-       [HttpPost]
-       [Route("Buscar")]
+
+        [HttpPost]
+        [Route("ConsultarPorPaginacion")]
+        public batches ConsultarPorPaginacion([FromBody] batches.Data data)
+        {
+            return objbatches.ConsultarPorPaginacion(data);
+        }
+
+        [HttpPost]
+       [Route("Buscar")] 
 		public batches Buscar([FromBody] batches.Data data)
 		{
 			return objbatches.Buscarbatches(data);
 		}
-
-       [HttpPost]
+        
+        [HttpPost]
        [Route("Insertar")]
 		public batches.State Insertar([FromBody] batches.Data data)
 		{

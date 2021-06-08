@@ -9,14 +9,21 @@ namespace proyecto.Models
 	{
 		public List<Data> _data = new List<Data>();
 		public State _error = new State();
+		public Pagination _pagination = new Pagination();
 
 		public batches(State error, List<Data> data)
 		{
 			_error = error;
 			_data = data;
 		}
-		public batches(State error)
+        public batches(State error, List<Data> data, Pagination pagination)
 		{
+			_error = error;
+			_data = data;
+			_pagination = pagination;
+		}
+		public batches(State error)
+		{           
 			_error = error;
 			_data = null;
 		}
@@ -116,11 +123,20 @@ namespace proyecto.Models
 			public System.String aceptordetail{ get; set; }
 			public System.String changerdetail{ get; set; }
 			public System.String returndetail{ get; set; }
-		}
+            public System.Int32 initItemPagination { get; set; }
+            public System.Int32 untilItemPagination { get; set; }
+        }
 		public class State
 		{
 			public System.Int32 error { get; set; }
 			public System.String descripcion { get; set; }
 		}
-	}
+        public class Pagination
+        {
+            public System.Int32 initItemPagination { get; set; }
+            public System.Int32 untilItemPagination { get; set; }
+            public System.Int32 itemsPerPagePagination { get; set; }
+            public System.Int32 itemsLengthPagination { get; set; }
+        }
+    }
 }

@@ -276,7 +276,146 @@ namespace proyecto.Models
 			}
 			return new batches(_state);
 		}
-		public batches.State Insertarbatches(batches.Data _batches)
+        public batches ConsultarPorPaginacion(batches.Data _batchesData)
+        {
+            List<batches.Data> lstbatches = new List<batches.Data>();
+            batches.Pagination _batchesPagination = new batches.Pagination();
+            try
+            {
+                _log.Traceo("Ingresa a Metodo Consultar por Paghinacion batches", "0");
+                MySqlConnection SqlCnn;
+                SqlCnn = Base.AbrirConexionMySql();
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Select_Pagination", SqlCnn);
+                SqlCmd.CommandType = CommandType.StoredProcedure;
+                SqlCmd.Parameters.AddWithValue("@initItem", _batchesData.initItemPagination);
+                SqlCmd.Parameters.AddWithValue("@untilItem", _batchesData.untilItemPagination);     
+                MySqlDataReader rdr = SqlCmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    batches.Data _batches = new batches.Data();
+                    _batches.id = Convert.ToInt32(rdr["id"].ToString());
+                    _batches.createtimestamp = !rdr.IsDBNull(1) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : System.DateTime.Now;
+                    _batches.updatetimestamp = !rdr.IsDBNull(2) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+                    _batches.deviceidentification = !rdr.IsDBNull(3) ? Convert.ToString(rdr["deviceidentification"].ToString()) : "";
+                    _batches.locationidentification = !rdr.IsDBNull(4) ? Convert.ToString(rdr["locationidentification"].ToString()) : "";
+                    _batches.payloadrequest = !rdr.IsDBNull(5) ? Convert.ToString(rdr["payloadrequest"].ToString()) : "";
+                    _batches.provideridentification = !rdr.IsDBNull(6) ? Convert.ToString(rdr["provideridentification"].ToString()) : "";
+                    _batches.devicestatus = !rdr.IsDBNull(7) ? Convert.ToString(rdr["devicestatus"].ToString()) : "";
+                    _batches.number_ = !rdr.IsDBNull(8) ? Convert.ToInt32(rdr["number_"].ToString()) : (System.Int32)0;
+                    _batches.status = Convert.ToInt32(rdr["status"].ToString());
+                    _batches.opentimestamp = !rdr.IsDBNull(10) ? Convert.ToDateTime(rdr["opentimestamp"].ToString()) : System.DateTime.Now;
+                    _batches.closetimestamp = !rdr.IsDBNull(11) ? Convert.ToDateTime(rdr["closetimestamp"].ToString()) : System.DateTime.Now;
+                    _batches.syncstatus = !rdr.IsDBNull(12) ? Convert.ToInt32(rdr["syncstatus"].ToString()) : (System.Int32)0;
+                    _batches.synctimestamp = !rdr.IsDBNull(13) ? Convert.ToDateTime(rdr["synctimestamp"].ToString()) : System.DateTime.Now;
+                    _batches.operativeday = !rdr.IsDBNull(14) ? Convert.ToString(rdr["operativeday"].ToString()) : "";
+                    _batches.totaltx = !rdr.IsDBNull(15) ? Convert.ToString(rdr["totaltx"].ToString()) : "";
+                    _batches.totalamount = !rdr.IsDBNull(16) ? Convert.ToString(rdr["totalamount"].ToString()) : "";
+                    _batches.totalaccepted = !rdr.IsDBNull(17) ? Convert.ToString(rdr["totalaccepted"].ToString()) : "";
+                    _batches.totalreturned = !rdr.IsDBNull(18) ? Convert.ToString(rdr["totalreturned"].ToString()) : "";
+                    _batches.totalavailable = !rdr.IsDBNull(19) ? Convert.ToString(rdr["totalavailable"].ToString()) : "";
+                    _batches.totalgivenamount = !rdr.IsDBNull(20) ? Convert.ToString(rdr["totalgivenamount"].ToString()) : "";
+                    _batches.totaldebtamount = !rdr.IsDBNull(21) ? Convert.ToString(rdr["totaldebtamount"].ToString()) : "";
+                    _batches.totalrefilloperations = !rdr.IsDBNull(22) ? Convert.ToString(rdr["totalrefilloperations"].ToString()) : "";
+                    _batches.totalrefillamount = !rdr.IsDBNull(23) ? Convert.ToString(rdr["totalrefillamount"].ToString()) : "";
+                    _batches.totalcollectoperations = !rdr.IsDBNull(24) ? Convert.ToString(rdr["totalcollectoperations"].ToString()) : "";
+                    _batches.totalcollectamount = !rdr.IsDBNull(25) ? Convert.ToString(rdr["totalcollectamount"].ToString()) : "";
+                    _batches.totalcardsdelivered = !rdr.IsDBNull(26) ? Convert.ToString(rdr["totalcardsdelivered"].ToString()) : "";
+                    _batches.totalcardrefilloperations = !rdr.IsDBNull(27) ? Convert.ToString(rdr["totalcardrefilloperations"].ToString()) : "";
+                    _batches.totalcardrefillamount = !rdr.IsDBNull(28) ? Convert.ToString(rdr["totalcardrefillamount"].ToString()) : "";
+                    _batches.totalcardcollectoperations = !rdr.IsDBNull(29) ? Convert.ToString(rdr["totalcardcollectoperations"].ToString()) : "";
+                    _batches.totalcardcollectamount = !rdr.IsDBNull(30) ? Convert.ToString(rdr["totalcardcollectamount"].ToString()) : "";
+                    _batches.carddispenserstatus = !rdr.IsDBNull(31) ? Convert.ToString(rdr["carddispenserstatus"].ToString()) : "";
+                    _batches.totallocks = !rdr.IsDBNull(32) ? Convert.ToString(rdr["totallocks"].ToString()) : "";
+                    _batches.opentime = !rdr.IsDBNull(33) ? Convert.ToString(rdr["opentime"].ToString()) : "";
+                    _batches.closetime = !rdr.IsDBNull(34) ? Convert.ToString(rdr["closetime"].ToString()) : "";
+                    _batches.scannerstatus = !rdr.IsDBNull(35) ? Convert.ToString(rdr["scannerstatus"].ToString()) : "";
+                    _batches.motionsensorstatus = !rdr.IsDBNull(36) ? Convert.ToString(rdr["motionsensorstatus"].ToString()) : "";
+                    _batches.printerstatus = !rdr.IsDBNull(37) ? Convert.ToString(rdr["printerstatus"].ToString()) : "";
+                    _batches.cashacceptorstatus = !rdr.IsDBNull(38) ? Convert.ToString(rdr["cashacceptorstatus"].ToString()) : "";
+                    _batches.cashchangerstatus = !rdr.IsDBNull(39) ? Convert.ToString(rdr["cashchangerstatus"].ToString()) : "";
+                    _batches.coinacceptorstatus = !rdr.IsDBNull(40) ? Convert.ToString(rdr["coinacceptorstatus"].ToString()) : "";
+                    _batches.coinchangerstatus = !rdr.IsDBNull(41) ? Convert.ToString(rdr["coinchangerstatus"].ToString()) : "";
+                    _batches.cardreaderstatus = !rdr.IsDBNull(42) ? Convert.ToString(rdr["cardreaderstatus"].ToString()) : "";
+                    _batches.blockreason = !rdr.IsDBNull(43) ? Convert.ToString(rdr["blockreason"].ToString()) : "";
+                    _batches.blockstatus = !rdr.IsDBNull(44) ? Convert.ToString(rdr["blockstatus"].ToString()) : "";
+                    _batches.aceptor_000005 = !rdr.IsDBNull(45) ? Convert.ToString(rdr["aceptor_000005"].ToString()) : "";
+                    _batches.aceptor_000010 = !rdr.IsDBNull(46) ? Convert.ToString(rdr["aceptor_000010"].ToString()) : "";
+                    _batches.aceptor_000025 = !rdr.IsDBNull(47) ? Convert.ToString(rdr["aceptor_000025"].ToString()) : "";
+                    _batches.aceptor_000050 = !rdr.IsDBNull(48) ? Convert.ToString(rdr["aceptor_000050"].ToString()) : "";
+                    _batches.aceptor_000100 = !rdr.IsDBNull(49) ? Convert.ToString(rdr["aceptor_000100"].ToString()) : "";
+                    _batches.aceptor_000200 = !rdr.IsDBNull(50) ? Convert.ToString(rdr["aceptor_000200"].ToString()) : "";
+                    _batches.aceptor_000500 = !rdr.IsDBNull(51) ? Convert.ToString(rdr["aceptor_000500"].ToString()) : "";
+                    _batches.aceptor_001000 = !rdr.IsDBNull(52) ? Convert.ToString(rdr["aceptor_001000"].ToString()) : "";
+                    _batches.aceptor_002000 = !rdr.IsDBNull(53) ? Convert.ToString(rdr["aceptor_002000"].ToString()) : "";
+                    _batches.aceptor_005000 = !rdr.IsDBNull(54) ? Convert.ToString(rdr["aceptor_005000"].ToString()) : "";
+                    _batches.aceptor_010000 = !rdr.IsDBNull(55) ? Convert.ToString(rdr["aceptor_010000"].ToString()) : "";
+                    _batches.changer_000005 = !rdr.IsDBNull(56) ? Convert.ToString(rdr["changer_000005"].ToString()) : "";
+                    _batches.changer_000010 = !rdr.IsDBNull(57) ? Convert.ToString(rdr["changer_000010"].ToString()) : "";
+                    _batches.changer_000025 = !rdr.IsDBNull(58) ? Convert.ToString(rdr["changer_000025"].ToString()) : "";
+                    _batches.changer_000050 = !rdr.IsDBNull(59) ? Convert.ToString(rdr["changer_000050"].ToString()) : "";
+                    _batches.changer_000100 = !rdr.IsDBNull(60) ? Convert.ToString(rdr["changer_000100"].ToString()) : "";
+                    _batches.changer_000200 = !rdr.IsDBNull(61) ? Convert.ToString(rdr["changer_000200"].ToString()) : "";
+                    _batches.changer_000500 = !rdr.IsDBNull(62) ? Convert.ToString(rdr["changer_000500"].ToString()) : "";
+                    _batches.changer_001000 = !rdr.IsDBNull(63) ? Convert.ToString(rdr["changer_001000"].ToString()) : "";
+                    _batches.changer_002000 = !rdr.IsDBNull(64) ? Convert.ToString(rdr["changer_002000"].ToString()) : "";
+                    _batches.changer_005000 = !rdr.IsDBNull(65) ? Convert.ToString(rdr["changer_005000"].ToString()) : "";
+                    _batches.changer_010000 = !rdr.IsDBNull(66) ? Convert.ToString(rdr["changer_010000"].ToString()) : "";
+                    _batches.return_000005 = !rdr.IsDBNull(67) ? Convert.ToString(rdr["return_000005"].ToString()) : "";
+                    _batches.return_000010 = !rdr.IsDBNull(68) ? Convert.ToString(rdr["return_000010"].ToString()) : "";
+                    _batches.return_000025 = !rdr.IsDBNull(69) ? Convert.ToString(rdr["return_000025"].ToString()) : "";
+                    _batches.return_000050 = !rdr.IsDBNull(70) ? Convert.ToString(rdr["return_000050"].ToString()) : "";
+                    _batches.return_000100 = !rdr.IsDBNull(71) ? Convert.ToString(rdr["return_000100"].ToString()) : "";
+                    _batches.return_000200 = !rdr.IsDBNull(72) ? Convert.ToString(rdr["return_000200"].ToString()) : "";
+                    _batches.return_000500 = !rdr.IsDBNull(73) ? Convert.ToString(rdr["return_000500"].ToString()) : "";
+                    _batches.return_001000 = !rdr.IsDBNull(74) ? Convert.ToString(rdr["return_001000"].ToString()) : "";
+                    _batches.return_002000 = !rdr.IsDBNull(75) ? Convert.ToString(rdr["return_002000"].ToString()) : "";
+                    _batches.return_005000 = !rdr.IsDBNull(76) ? Convert.ToString(rdr["return_005000"].ToString()) : "";
+                    _batches.return_010000 = !rdr.IsDBNull(77) ? Convert.ToString(rdr["return_010000"].ToString()) : "";
+                    _batches.return_066666 = !rdr.IsDBNull(78) ? Convert.ToString(rdr["return_066666"].ToString()) : "";
+                    _batches.aceptor_100000 = !rdr.IsDBNull(79) ? Convert.ToString(rdr["aceptor_100000"].ToString()) : "";
+                    _batches.aceptor_200000 = !rdr.IsDBNull(80) ? Convert.ToString(rdr["aceptor_200000"].ToString()) : "";
+                    _batches.aceptor_500000 = !rdr.IsDBNull(81) ? Convert.ToString(rdr["aceptor_500000"].ToString()) : "";
+                    _batches.aceptor_1000000 = !rdr.IsDBNull(82) ? Convert.ToString(rdr["aceptor_1000000"].ToString()) : "";
+                    _batches.changer_100000 = !rdr.IsDBNull(83) ? Convert.ToString(rdr["changer_100000"].ToString()) : "";
+                    _batches.changer_200000 = !rdr.IsDBNull(84) ? Convert.ToString(rdr["changer_200000"].ToString()) : "";
+                    _batches.changer_500000 = !rdr.IsDBNull(85) ? Convert.ToString(rdr["changer_500000"].ToString()) : "";
+                    _batches.changer_1000000 = !rdr.IsDBNull(86) ? Convert.ToString(rdr["changer_1000000"].ToString()) : "";
+                    _batches.return_100000 = !rdr.IsDBNull(87) ? Convert.ToString(rdr["return_100000"].ToString()) : "";
+                    _batches.return_1000000 = !rdr.IsDBNull(88) ? Convert.ToString(rdr["return_1000000"].ToString()) : "";
+                    _batches.return_500000 = !rdr.IsDBNull(89) ? Convert.ToString(rdr["return_500000"].ToString()) : "";
+                    _batches.return_200000 = !rdr.IsDBNull(90) ? Convert.ToString(rdr["return_200000"].ToString()) : "";
+                    _batches.aceptordetail = !rdr.IsDBNull(91) ? Convert.ToString(rdr["aceptordetail"].ToString()) : "";
+                    _batches.changerdetail = !rdr.IsDBNull(92) ? Convert.ToString(rdr["changerdetail"].ToString()) : "";
+                    _batches.returndetail = !rdr.IsDBNull(93) ? Convert.ToString(rdr["returndetail"].ToString()) : "";
+
+                    lstbatches.Add(_batches);
+                }
+                _batchesPagination.initItemPagination = _batchesData.initItemPagination;
+                _batchesPagination.untilItemPagination = _batchesData.untilItemPagination;
+                _batchesPagination.itemsPerPagePagination = lstbatches.Count;
+                _batchesPagination.itemsLengthPagination = Counterbatches().itemsLengthPagination;
+                Base.CerrarConexionMySql(SqlCnn);
+                _state.error = 0;
+                _state.descripcion = "Operacion Realizada";
+                _log.Traceo(_state.descripcion + " Operacion Buscar batches", _state.error.ToString());
+                return new batches(_state, lstbatches, _batchesPagination);
+            }
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
+            {
+                _state.error = -3;
+                _state.descripcion = Ex.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            return new batches(_state);
+        }
+
+        public batches.State Insertarbatches(batches.Data _batches)
 		{
 			try
 			{
@@ -560,5 +699,41 @@ namespace proyecto.Models
 			}
 			return _state;
 		}
-	}
+
+        public batches.Pagination Counterbatches()
+        {
+            batches.Pagination _batches = new batches.Pagination();
+            try
+            {
+                _log.Traceo("Ingresa a Metodo Counter batches", "0");
+                MySqlConnection SqlCnn;
+                SqlCnn = Base.AbrirConexionMySql();
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Counter", SqlCnn);
+                SqlCmd.CommandType = CommandType.StoredProcedure;
+                MySqlDataReader rdr = SqlCmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    _batches.itemsLengthPagination = Convert.ToInt32(rdr["itemsLength"].ToString());
+                }
+                Base.CerrarConexionMySql(SqlCnn);
+                _state.error = 0;
+                _state.descripcion = "Operacion Realizada";
+                _log.Traceo(_state.descripcion + " Operacion Counter batches", _state.error.ToString());
+                return _batches;
+            }
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
+            {
+                _state.error = -3;
+                _state.descripcion = Ex.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            return _batches;
+        }
+    }
 }
