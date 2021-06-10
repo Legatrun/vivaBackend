@@ -708,7 +708,7 @@ namespace proyecto.Models
                 _log.Traceo("Ingresa a Metodo Counter batches", "0");
                 MySqlConnection SqlCnn;
                 SqlCnn = Base.AbrirConexionMySql();
-                MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Counter", SqlCnn);
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Count", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
                 MySqlDataReader rdr = SqlCmd.ExecuteReader();
                 while (rdr.Read())
