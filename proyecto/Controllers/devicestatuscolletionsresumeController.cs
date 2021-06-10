@@ -20,7 +20,13 @@ namespace proyecto.Controllers
 		{
 			return objdevicestatuscolletionsresume.Consultardevicestatuscolletionsresume();
 		}
-       [HttpPost]
+        [HttpPost]
+        [Route("ConsultarPorProvider")]
+        public devicestatuscolletionsresume ConsultarPorProvider()
+        {
+            return objdevicestatuscolletionsresume.Consultardevicestatuscolletionsresumeprovider();
+        }
+        [HttpPost]
        [Route("Buscar")]
 		public devicestatuscolletionsresume Buscar([FromBody] devicestatuscolletionsresume.Data data)
 		{

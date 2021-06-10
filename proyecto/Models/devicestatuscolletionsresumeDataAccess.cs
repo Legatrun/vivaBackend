@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -20,18 +21,27 @@ namespace proyecto.Models
 			List<devicestatuscolletionsresume.Data> lstdevicestatuscolletionsresume = new List<devicestatuscolletionsresume.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicestatuscolletionsresume_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresume_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					devicestatuscolletionsresume.Data _devicestatuscolletionsresume= new devicestatuscolletionsresume.Data();
 					_devicestatuscolletionsresume.id = Convert.ToInt32(rdr["id"].ToString());
-					lstdevicestatuscolletionsresume.Add(_devicestatuscolletionsresume);
+					_devicestatuscolletionsresume.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
+					_devicestatuscolletionsresume.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
+					_devicestatuscolletionsresume.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
+					_devicestatuscolletionsresume.alarm = Convert.ToString(rdr["alarm"].ToString());
+					_devicestatuscolletionsresume.devicestatus = Convert.ToInt32(rdr["devicestatus"].ToString());
+					_devicestatuscolletionsresume.devicestatusdetail = Convert.ToString(rdr["devicestatusdetail"].ToString());
+					_devicestatuscolletionsresume.operatingmode = Convert.ToString(rdr["operatingmode"].ToString());
+					_devicestatuscolletionsresume.operationname = Convert.ToString(rdr["operationname"].ToString());
+
+                    lstdevicestatuscolletionsresume.Add(_devicestatuscolletionsresume);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Consultar devicestatuscolletionsresume", _state.error.ToString());
@@ -63,25 +73,82 @@ namespace proyecto.Models
 			}
 			return new devicestatuscolletionsresume(_state);
 		}
-		public devicestatuscolletionsresume Buscardevicestatuscolletionsresume(devicestatuscolletionsresume.Data _devicestatuscolletionsresumeData)
+        public devicestatuscolletionsresume Consultardevicestatuscolletionsresumeprovider()
+        {
+            _log.Traceo("Ingresa a Metodo Consultar Consultardevicestatuscolletionsresumeprovider", "0");
+            List<devicestatuscolletionsresume.Data> lstdevicestatuscolletionsresume = new List<devicestatuscolletionsresume.Data>();
+            try
+            {
+                MySqlConnection SqlCnn;
+                SqlCnn = Base.AbrirConexionMySql();
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresumeprovider_Select", SqlCnn);
+                SqlCmd.CommandType = CommandType.StoredProcedure;
+                MySqlDataReader rdr = SqlCmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    devicestatuscolletionsresume.Data _devicestatuscolletionsresume = new devicestatuscolletionsresume.Data();
+                    _devicestatuscolletionsresume.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
+                    _devicestatuscolletionsresume.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
+                    _devicestatuscolletionsresume.alarm = Convert.ToString(rdr["alarm"].ToString());
+                    _devicestatuscolletionsresume.devicestatus = Convert.ToInt32(rdr["devicestatus"].ToString());
+                    _devicestatuscolletionsresume.devicestatusdetail = Convert.ToString(rdr["devicestatusdetail"].ToString());
+                    _devicestatuscolletionsresume.operatingmode = Convert.ToString(rdr["operatingmode"].ToString());
+                    _devicestatuscolletionsresume.operationname = Convert.ToString(rdr["operationname"].ToString());
+
+                    lstdevicestatuscolletionsresume.Add(_devicestatuscolletionsresume);
+                }
+                Base.CerrarConexionMySql(SqlCnn);
+                _state.error = 0;
+                _state.descripcion = "Operacion Realizada";
+                _log.Traceo(_state.descripcion + " Operacion Consultar Consultardevicestatuscolletionsresumeprovider", _state.error.ToString());
+                return new devicestatuscolletionsresume(_state, lstdevicestatuscolletionsresume);
+            }
+            catch (SqlException XcpSQL)
+            {
+                foreach (SqlError se in XcpSQL.Errors)
+                {
+                    if (se.Number <= 50000)
+                    {
+                        _state.error = -1;
+                        _state.descripcion = se.Message;
+                        _log.Error(_state.descripcion, _state.error.ToString());
+                    }
+                    else
+                    {
+                        _state.error = -2;
+                        _state.descripcion = "Error en Operacion de Consulta de Datos";
+                        _log.Error(_state.descripcion, _state.error.ToString());
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                _state.error = -3;
+                _state.descripcion = Ex.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            return new devicestatuscolletionsresume(_state);
+        }
+
+        public devicestatuscolletionsresume Buscardevicestatuscolletionsresume(devicestatuscolletionsresume.Data _devicestatuscolletionsresumeData)
 		{
 			List<devicestatuscolletionsresume.Data> lstdevicestatuscolletionsresume = new List<devicestatuscolletionsresume.Data>();
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Buscar devicestatuscolletionsresume", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicestatuscolletionsresume_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresume_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _devicestatuscolletionsresumeData.id);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					devicestatuscolletionsresume.Data _devicestatuscolletionsresume= new devicestatuscolletionsresume.Data();
 					_devicestatuscolletionsresume.id = Convert.ToInt32(rdr["id"].ToString());
 					lstdevicestatuscolletionsresume.Add(_devicestatuscolletionsresume);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar devicestatuscolletionsresume", _state.error.ToString());
@@ -118,9 +185,9 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Insertar devicestatuscolletionsresume", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicestatuscolletionsresume_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresume_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _devicestatuscolletionsresume.id);
 				SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicestatuscolletionsresume.createtimestamp);
@@ -171,7 +238,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@processid", _devicestatuscolletionsresume.processid);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar devicestatuscolletionsresume", _state.error.ToString());
@@ -207,9 +274,9 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Actualizar devicestatuscolletionsresume", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicestatuscolletionsresume_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresume_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _devicestatuscolletionsresume.id);
 				SqlCmd.Parameters.AddWithValue("@createtimestamp", _devicestatuscolletionsresume.createtimestamp);
@@ -260,7 +327,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@processid", _devicestatuscolletionsresume.processid);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar devicestatuscolletionsresume", _state.error.ToString());
@@ -296,14 +363,14 @@ namespace proyecto.Models
 			try
 			{
 		        _log.Traceo("Ingresa a Metodo Eliminar devicestatuscolletionsresume", "0");
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexion();
-				SqlCommand SqlCmd = new SqlCommand("Proc_devicestatuscolletionsresume_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresume_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@id", _devicestatuscolletionsresume.id);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar devicestatuscolletionsresume", _state.error.ToString());
