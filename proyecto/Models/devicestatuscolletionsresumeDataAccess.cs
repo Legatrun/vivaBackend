@@ -89,6 +89,7 @@ namespace proyecto.Models
                     devicestatuscolletionsresume.Data _devicestatuscolletionsresume = new devicestatuscolletionsresume.Data();
                     _devicestatuscolletionsresume.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
                     _devicestatuscolletionsresume.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
+                    _devicestatuscolletionsresume.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
                     _devicestatuscolletionsresume.alarm = Convert.ToString(rdr["alarm"].ToString());
                     _devicestatuscolletionsresume.devicestatus = Convert.ToInt32(rdr["devicestatus"].ToString());
                     _devicestatuscolletionsresume.devicestatusdetail = Convert.ToString(rdr["devicestatusdetail"].ToString());
