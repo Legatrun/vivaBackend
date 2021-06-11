@@ -9,13 +9,20 @@ namespace proyecto.Models
 	{
 		public List<Data> _data = new List<Data>();
 		public State _error = new State();
+        public Pagination _pagination = new Pagination();
 
-		public transactions(State error, List<Data> data)
+        public transactions(State error, List<Data> data)
 		{
 			_error = error;
 			_data = data;
 		}
-		public transactions(State error)
+        public transactions(State error, List<Data> data, Pagination pagination)
+        {
+            _error = error;
+            _data = data;
+            _pagination = pagination;
+        }
+        public transactions(State error)
 		{
 			_error = error;
 			_data = null;
@@ -60,11 +67,20 @@ namespace proyecto.Models
 			public System.DateTime canceledtimestamp{ get; set; }
 			public System.Int32 providersequencenumber{ get; set; }
 			public System.Int32 cardsdispensed{ get; set; }
-		}
+            public System.Int32 initItemPagination { get; set; }
+            public System.Int32 untilItemPagination { get; set; }
+        }
 		public class State
 		{
 			public System.Int32 error { get; set; }
 			public System.String descripcion { get; set; }
 		}
-	}
+        public class Pagination
+        {
+            public System.Int32 initItemPagination { get; set; }
+            public System.Int32 untilItemPagination { get; set; }
+            public System.Int32 itemsPerPagePagination { get; set; }
+            public System.Int32 itemsLengthPagination { get; set; }
+        }
+    }
 }
