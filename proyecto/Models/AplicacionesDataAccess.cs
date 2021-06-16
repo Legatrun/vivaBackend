@@ -130,23 +130,17 @@ namespace proyecto.Models
 				SqlCnn = Base.AbrirConexionMySql();
 				MySqlCommand SqlCmd = new MySqlCommand("Proc_Aplicaciones_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlParameter pIdAplicacion = new SqlParameter();
-				pIdAplicacion.ParameterName = "@IdAplicacion";
-				pIdAplicacion.Value = 0;
-				SqlCmd.Parameters.Add(pIdAplicacion);
-				pIdAplicacion.Direction = System.Data.ParameterDirection.Output;
 				SqlCmd.Parameters.AddWithValue("@nombre", _Aplicaciones.nombre);
 				SqlCmd.Parameters.AddWithValue("@descripcion", _Aplicaciones.descripcion);
 
 				SqlCmd.ExecuteNonQuery();
-				_Aplicaciones.idaplicacion = (System.Int32)pIdAplicacion.Value;
 				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
             catch (MySqlException XcpSQL)
             {
-                _state.error = -2;
+                _state.error = -1;
                 _state.descripcion = "Error: " + XcpSQL.Message;
                // _log.Error(_state.descripcion, _state.error.ToString());
             }
