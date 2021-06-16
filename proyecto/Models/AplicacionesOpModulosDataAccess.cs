@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace proyecto.Models
 {
 	public class AplicacionesOpModulosDataAccess
@@ -15,11 +16,11 @@ namespace proyecto.Models
 			List<AplicacionesOpModulos.Data> lstAplicacionesOpModulos = new List<AplicacionesOpModulos.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					AplicacionesOpModulos.Data _AplicacionesOpModulos= new AplicacionesOpModulos.Data();
@@ -31,7 +32,7 @@ namespace proyecto.Models
 					_AplicacionesOpModulos.estado = !rdr.IsDBNull(5) ? (System.Boolean)rdr["estado"] : false;
 					lstAplicacionesOpModulos.Add(_AplicacionesOpModulos);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new AplicacionesOpModulos(_state, lstAplicacionesOpModulos);
@@ -64,12 +65,12 @@ namespace proyecto.Models
 			List<AplicacionesOpModulos.Data> lstAplicacionesOpModulos = new List<AplicacionesOpModulos.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacionesopmodulos", idaplicacionesopmodulos);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					AplicacionesOpModulos.Data _AplicacionesOpModulos= new AplicacionesOpModulos.Data();
@@ -81,7 +82,7 @@ namespace proyecto.Models
 					_AplicacionesOpModulos.estado = !rdr.IsDBNull(5) ? (System.Boolean)rdr["estado"] : false;
 					lstAplicacionesOpModulos.Add(_AplicacionesOpModulos);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new AplicacionesOpModulos(_state, lstAplicacionesOpModulos);
@@ -115,13 +116,13 @@ namespace proyecto.Models
 			List<AplicacionesOpModulos.Data> lstAplicacionesOpModulos = new List<AplicacionesOpModulos.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_SearchXAplicacion", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_SearchXAplicacion", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacion", idaplicacion);
 				SqlCmd.Parameters.AddWithValue("@idrol", idrol);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					AplicacionesOpModulos.Data _AplicacionesOpModulos = new AplicacionesOpModulos.Data();
@@ -133,7 +134,7 @@ namespace proyecto.Models
 					_AplicacionesOpModulos.estado = !rdr.IsDBNull(4) ? (System.Boolean)rdr["estado"] : false;
 					lstAplicacionesOpModulos.Add(_AplicacionesOpModulos);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new AplicacionesOpModulos(_state, lstAplicacionesOpModulos);
@@ -167,12 +168,12 @@ namespace proyecto.Models
 			List<AplicacionesOpModulos.Data> lstAplicacionesOpModulos = new List<AplicacionesOpModulos.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_SearchXRol", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_SearchXRol", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idrol", idrol);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					AplicacionesOpModulos.Data _AplicacionesOpModulos = new AplicacionesOpModulos.Data();
@@ -184,7 +185,7 @@ namespace proyecto.Models
 					_AplicacionesOpModulos.estado = !rdr.IsDBNull(4) ? (System.Boolean)rdr["estado"] : false;
 					lstAplicacionesOpModulos.Add(_AplicacionesOpModulos);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new AplicacionesOpModulos(_state, lstAplicacionesOpModulos);
@@ -216,9 +217,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlParameter pIDAplicacionesOpModulos = new SqlParameter();
 				pIDAplicacionesOpModulos.ParameterName = "@IDAplicacionesOpModulos";
@@ -231,7 +232,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@activo", _AplicacionesOpModulos.activo);
 				SqlCmd.ExecuteNonQuery();
 				_AplicacionesOpModulos.idaplicacionesopmodulos = (System.Int32)pIDAplicacionesOpModulos.Value;
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -262,9 +263,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacionesopmodulos", _AplicacionesOpModulos.idaplicacionesopmodulos);
 				SqlCmd.Parameters.AddWithValue("@idaplicacion", _AplicacionesOpModulos.idaplicacion);
@@ -273,7 +274,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@activo", _AplicacionesOpModulos.activo);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -304,14 +305,14 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_AplicacionesOpModulos_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_AplicacionesOpModulos_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacionesopmodulos", _AplicacionesOpModulos.idaplicacionesopmodulos);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}

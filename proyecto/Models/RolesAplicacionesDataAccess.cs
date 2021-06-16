@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace proyecto.Models
 {
 	public class RolesAplicacionesDataAccess
@@ -15,11 +16,11 @@ namespace proyecto.Models
 			List<RolesAplicaciones.Data> lstRolesAplicaciones = new List<RolesAplicaciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_RolesAplicaciones_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_RolesAplicaciones_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					RolesAplicaciones.Data _RolesAplicaciones= new RolesAplicaciones.Data();
@@ -28,7 +29,7 @@ namespace proyecto.Models
 					_RolesAplicaciones.idaplicacion = !rdr.IsDBNull(2) ? (System.Int32)rdr["idaplicacion"] : (System.Int32)0;
 					lstRolesAplicaciones.Add(_RolesAplicaciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new RolesAplicaciones(_state, lstRolesAplicaciones);
@@ -61,12 +62,12 @@ namespace proyecto.Models
 			List<RolesAplicaciones.Data> lstRolesAplicaciones = new List<RolesAplicaciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_RolesAplicaciones_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_RolesAplicaciones_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idrolesaplicaciones", idrolesaplicaciones);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					RolesAplicaciones.Data _RolesAplicaciones= new RolesAplicaciones.Data();
@@ -75,7 +76,7 @@ namespace proyecto.Models
 					_RolesAplicaciones.idaplicacion = !rdr.IsDBNull(2) ? (System.Int32)rdr["idaplicacion"] : (System.Int32)0;
 					lstRolesAplicaciones.Add(_RolesAplicaciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new RolesAplicaciones(_state, lstRolesAplicaciones);
@@ -108,12 +109,12 @@ namespace proyecto.Models
 			List<RolesAplicaciones.Data> lstRolesAplicaciones = new List<RolesAplicaciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("sp_RolesAplicaciones_SearchXRol", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("sp_RolesAplicaciones_SearchXRol", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idrol", idrol);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					RolesAplicaciones.Data _RolesAplicaciones = new RolesAplicaciones.Data();
@@ -122,7 +123,7 @@ namespace proyecto.Models
 					_RolesAplicaciones.idaplicacion = !rdr.IsDBNull(2) ? (System.Int32)rdr["idaplicacion"] : (System.Int32)0;
 					lstRolesAplicaciones.Add(_RolesAplicaciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new RolesAplicaciones(_state, lstRolesAplicaciones);
@@ -154,9 +155,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_RolesAplicaciones_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_RolesAplicaciones_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlParameter pIDRolesAplicaciones = new SqlParameter();
 				pIDRolesAplicaciones.ParameterName = "@IDRolesAplicaciones";
@@ -168,7 +169,7 @@ namespace proyecto.Models
 
 				SqlCmd.ExecuteNonQuery();
 				_RolesAplicaciones.idrolesaplicaciones = (System.Int32)pIDRolesAplicaciones.Value;
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -199,16 +200,16 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_RolesAplicaciones_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_RolesAplicaciones_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idrolesaplicaciones", _RolesAplicaciones.idrolesaplicaciones);
 				SqlCmd.Parameters.AddWithValue("@idrol", _RolesAplicaciones.idrol);
 				SqlCmd.Parameters.AddWithValue("@idaplicacion", _RolesAplicaciones.idaplicacion);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -239,14 +240,14 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_RolesAplicaciones_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_RolesAplicaciones_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idrolesaplicaciones", _RolesAplicaciones.idrolesaplicaciones);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}

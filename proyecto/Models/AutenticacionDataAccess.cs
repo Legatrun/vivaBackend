@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using proyecto.Helpers;
+using MySql.Data.MySqlClient;
 namespace proyecto.Models
 {
     public class AutenticacionDataAccess
@@ -24,13 +25,13 @@ namespace proyecto.Models
             {
                 _log.Traceo("Inicia Sesión de Usuario " + _crypto.DesencriptarValorFront(data.Usuario), "0");
 
-                SqlConnection SqlCnn;
-                SqlCnn = Base.AbrirConexion();
-                SqlCommand SqlCmd = new SqlCommand("Proc_Autenticacion_Login", SqlCnn);
+                MySqlConnection SqlCnn;
+                SqlCnn = Base.AbrirConexionMySql();
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_Autenticacion_Login", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
                 SqlCmd.Parameters.AddWithValue("@usuario", _crypto.DesencriptarValorFront(data.Usuario));
                 SqlCmd.Parameters.AddWithValue("@password", _crypto.DesencriptarValorFront(data.Password));
-                SqlDataReader rdr = SqlCmd.ExecuteReader();
+                MySqlDataReader rdr = SqlCmd.ExecuteReader();
                 while (rdr.Read())
                 {
                     Autenticacion.Data _Autenticacion = new Autenticacion.Data();
@@ -38,7 +39,7 @@ namespace proyecto.Models
                     _Autenticacion.FechaUltimoLogin = (System.DateTime)rdr["FechaUltimaSesionIniciada"]; 
                     lstAutenticacion.Add(_Autenticacion);
                 }
-                Base.CerrarConexion(SqlCnn);
+                Base.CerrarConexionMySql(SqlCnn);
                 _state.error = 0;
                 _state.descripcion = "Sesion Iniciada";
                 _log.Traceo("Sesión de Usuario " + data.Usuario + " iniciada", _state.error.ToString());
@@ -144,14 +145,14 @@ namespace proyecto.Models
             {
                 _log.Traceo("Cierre de Sesión de Usuario " + _crypto.DesencriptarValorFront(data.Usuario), "0");
 
-                SqlConnection SqlCnn;
-                SqlCnn = Base.AbrirConexion();
-                SqlCommand SqlCmd = new SqlCommand("Proc_Autenticacion_Logout", SqlCnn);
+                MySqlConnection SqlCnn;
+                SqlCnn = Base.AbrirConexionMySql();
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_Autenticacion_Logout", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
                 SqlCmd.Parameters.AddWithValue("@usuario", _crypto.DesencriptarValorFront(data.Usuario));
-                SqlDataReader rdr = SqlCmd.ExecuteReader();
+                MySqlDataReader rdr = SqlCmd.ExecuteReader();
                
-                Base.CerrarConexion(SqlCnn);
+                Base.CerrarConexionMySql(SqlCnn);
                 _state.error = 0;
                 _state.descripcion = "Sesion Finalizada";
                 _log.Traceo("Sesión de Usuario " + data.Usuario +" Finalizada"+ " iniciada", _state.error.ToString());
@@ -191,19 +192,19 @@ namespace proyecto.Models
             {
                 _log.Traceo("Verifica existencia de Usuario " + _crypto.DesencriptarValorFront(data.Usuario), "0");
 
-                SqlConnection SqlCnn;
-                SqlCnn = Base.AbrirConexion();
-                SqlCommand SqlCmd = new SqlCommand("Proc_Autenticacion_VerificaUsuario", SqlCnn);
+                MySqlConnection SqlCnn;
+                SqlCnn = Base.AbrirConexionMySql();
+                MySqlCommand SqlCmd = new MySqlCommand("Proc_Autenticacion_VerificaUsuario", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
                 SqlCmd.Parameters.AddWithValue("@usuario", _crypto.DesencriptarValorFront(data.Usuario));
-                SqlDataReader rdr = SqlCmd.ExecuteReader();
+                MySqlDataReader rdr = SqlCmd.ExecuteReader();
                 while (rdr.Read())
                 {
                     Autenticacion.Data _Autenticacion = new Autenticacion.Data();
                     _Autenticacion.Usuario = (System.String)rdr["Usuario"];
                     lstAutenticacion.Add(_Autenticacion);
                 }
-                Base.CerrarConexion(SqlCnn);
+                Base.CerrarConexionMySql(SqlCnn);
                 _state.error = 0;
                 _state.descripcion = "Usuario Existente";
                 _log.Traceo("Usuario Verificado: " + data.Usuario, _state.error.ToString());

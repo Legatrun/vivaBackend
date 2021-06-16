@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace proyecto.Models
 {
 	public class AplicacionesDataAccess
@@ -15,11 +16,11 @@ namespace proyecto.Models
 			List<Aplicaciones.Data> lstAplicaciones = new List<Aplicaciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_Aplicaciones_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_Aplicaciones_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					Aplicaciones.Data _Aplicaciones= new Aplicaciones.Data();
@@ -28,7 +29,7 @@ namespace proyecto.Models
 					_Aplicaciones.descripcion = !rdr.IsDBNull(2) ? (System.String)rdr["descripcion"] : "";
 					lstAplicaciones.Add(_Aplicaciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new Aplicaciones(_state, lstAplicaciones);
@@ -61,12 +62,12 @@ namespace proyecto.Models
 			List<Aplicaciones.Data> lstAplicaciones = new List<Aplicaciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_Aplicaciones_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_Aplicaciones_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacion", idaplicacion);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					Aplicaciones.Data _Aplicaciones= new Aplicaciones.Data();
@@ -75,7 +76,7 @@ namespace proyecto.Models
 					_Aplicaciones.descripcion = !rdr.IsDBNull(2) ? (System.String)rdr["descripcion"] : "";
 					lstAplicaciones.Add(_Aplicaciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new Aplicaciones(_state, lstAplicaciones);
@@ -108,13 +109,13 @@ namespace proyecto.Models
 			List<Aplicaciones.Data> lstAplicaciones = new List<Aplicaciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("sp_AutenticarUsuario", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("sp_AutenticarUsuario", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@nombre", nombre);
 				SqlCmd.Parameters.AddWithValue("@password", password);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					Aplicaciones.Data _Aplicaciones = new Aplicaciones.Data();
@@ -123,7 +124,7 @@ namespace proyecto.Models
 					_Aplicaciones.descripcion = !rdr.IsDBNull(2) ? (System.String)rdr["descripcion"] : "";
 					lstAplicaciones.Add(_Aplicaciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new Aplicaciones(_state, lstAplicaciones);
@@ -155,9 +156,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_Aplicaciones_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_Aplicaciones_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlParameter pIdAplicacion = new SqlParameter();
 				pIdAplicacion.ParameterName = "@IdAplicacion";
@@ -169,7 +170,7 @@ namespace proyecto.Models
 
 				SqlCmd.ExecuteNonQuery();
 				_Aplicaciones.idaplicacion = (System.Int32)pIdAplicacion.Value;
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -200,16 +201,16 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_Aplicaciones_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_Aplicaciones_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacion", _Aplicaciones.idaplicacion);
 				SqlCmd.Parameters.AddWithValue("@nombre", _Aplicaciones.nombre);
 				SqlCmd.Parameters.AddWithValue("@descripcion", _Aplicaciones.descripcion);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -240,14 +241,14 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_Aplicaciones_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_Aplicaciones_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idaplicacion", _Aplicaciones.idaplicacion);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}

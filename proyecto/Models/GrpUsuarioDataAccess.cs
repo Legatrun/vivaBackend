@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace proyecto.Models
 {
 	public class GrpUsuarioDataAccess
@@ -15,11 +16,11 @@ namespace proyecto.Models
 			List<GrpUsuario.Data> lstGrpUsuario = new List<GrpUsuario.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsuario_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsuario_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					GrpUsuario.Data _GrpUsuario= new GrpUsuario.Data();
@@ -28,7 +29,7 @@ namespace proyecto.Models
 					_GrpUsuario.idusuario = (System.Int32)rdr["idusuario"];
 					lstGrpUsuario.Add(_GrpUsuario);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new GrpUsuario(_state, lstGrpUsuario);
@@ -61,12 +62,12 @@ namespace proyecto.Models
 			List<GrpUsuario.Data> lstGrpUsuario = new List<GrpUsuario.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsuario_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsuario_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idgrpusuario", idgrpusuario);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					GrpUsuario.Data _GrpUsuario= new GrpUsuario.Data();
@@ -75,7 +76,7 @@ namespace proyecto.Models
 					_GrpUsuario.idusuario = (System.Int32)rdr["idusuario"];
 					lstGrpUsuario.Add(_GrpUsuario);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new GrpUsuario(_state, lstGrpUsuario);
@@ -108,12 +109,12 @@ namespace proyecto.Models
 			List<GrpUsuario.Data> lstGrpUsuario = new List<GrpUsuario.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("sp_GrpUsuario_SearchxUsuario", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("sp_GrpUsuario_SearchxUsuario", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idusuario", idusuario);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					GrpUsuario.Data _GrpUsuario = new GrpUsuario.Data();
@@ -122,7 +123,7 @@ namespace proyecto.Models
 					_GrpUsuario.idusuario = (System.Int32)rdr["idusuario"];
 					lstGrpUsuario.Add(_GrpUsuario);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new GrpUsuario(_state, lstGrpUsuario);
@@ -154,9 +155,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsuario_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsuario_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlParameter pIDGrpUsuario = new SqlParameter();
 				pIDGrpUsuario.ParameterName = "@IDGrpUsuario";
@@ -168,7 +169,7 @@ namespace proyecto.Models
 
 				SqlCmd.ExecuteNonQuery();
 				_GrpUsuario.idgrpusuario = (System.Int32)pIDGrpUsuario.Value;
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -199,9 +200,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsuario_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsuario_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idgrpusuario", _GrpUsuario.idgrpusuario);
 				SqlCmd.Parameters.AddWithValue("@idgrupo", _GrpUsuario.idgrupo);
@@ -209,7 +210,7 @@ namespace proyecto.Models
 				
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -240,14 +241,14 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsuario_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsuario_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idgrpusuario", _GrpUsuario.idgrpusuario);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}

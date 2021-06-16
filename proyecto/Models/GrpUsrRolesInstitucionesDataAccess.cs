@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 namespace proyecto.Models
 {
 	public class GrpUsrRolesInstitucionesDataAccess
@@ -15,11 +16,11 @@ namespace proyecto.Models
 			List<GrpUsrRolesInstituciones.Data> lstGrpUsrRolesInstituciones = new List<GrpUsrRolesInstituciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsrRolesInstituciones_Select", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsrRolesInstituciones_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					GrpUsrRolesInstituciones.Data _GrpUsrRolesInstituciones= new GrpUsrRolesInstituciones.Data();
@@ -28,7 +29,7 @@ namespace proyecto.Models
 					_GrpUsrRolesInstituciones.idinstitucionrol = (System.Int32)rdr["idinstitucionrol"];
 					lstGrpUsrRolesInstituciones.Add(_GrpUsrRolesInstituciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new GrpUsrRolesInstituciones(_state, lstGrpUsrRolesInstituciones);
@@ -61,12 +62,12 @@ namespace proyecto.Models
 			List<GrpUsrRolesInstituciones.Data> lstGrpUsrRolesInstituciones = new List<GrpUsrRolesInstituciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsrRolesInstituciones_Search", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsrRolesInstituciones_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idgrpusuariorolinstitucion", idgrpusuariorolinstitucion);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					GrpUsrRolesInstituciones.Data _GrpUsrRolesInstituciones= new GrpUsrRolesInstituciones.Data();
@@ -75,7 +76,7 @@ namespace proyecto.Models
 					_GrpUsrRolesInstituciones.idinstitucionrol = (System.Int32)rdr["idinstitucionrol"];
 					lstGrpUsrRolesInstituciones.Add(_GrpUsrRolesInstituciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new GrpUsrRolesInstituciones(_state, lstGrpUsrRolesInstituciones);
@@ -109,12 +110,12 @@ namespace proyecto.Models
 			List<GrpUsrRolesInstituciones.Data> lstGrpUsrRolesInstituciones = new List<GrpUsrRolesInstituciones.Data>();
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("sp_GrpUsrRolesInstituciones_SearchXInstitucion", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("sp_GrpUsrRolesInstituciones_SearchXInstitucion", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idinstitucion", idinstitucion);
-				SqlDataReader rdr = SqlCmd.ExecuteReader();
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
 					GrpUsrRolesInstituciones.Data _GrpUsrRolesInstituciones = new GrpUsrRolesInstituciones.Data();
@@ -123,7 +124,7 @@ namespace proyecto.Models
 					_GrpUsrRolesInstituciones.idinstitucionrol = (System.Int32)rdr["idinstitucionrol"];
 					lstGrpUsrRolesInstituciones.Add(_GrpUsrRolesInstituciones);
 				}
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				return new GrpUsrRolesInstituciones(_state, lstGrpUsrRolesInstituciones);
@@ -156,9 +157,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsrRolesInstituciones_Insert", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsrRolesInstituciones_Insert", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlParameter pIDGrpUsuarioRolInstitucion = new SqlParameter();
 				pIDGrpUsuarioRolInstitucion.ParameterName = "@IDGrpUsuarioRolInstitucion";
@@ -170,7 +171,7 @@ namespace proyecto.Models
 
 				SqlCmd.ExecuteNonQuery();
 				_GrpUsrRolesInstituciones.idgrpusuariorolinstitucion = (System.Int32)pIDGrpUsuarioRolInstitucion.Value;
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -201,9 +202,9 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsrRolesInstituciones_Update", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsrRolesInstituciones_Update", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idgrpusuariorolinstitucion", _GrpUsrRolesInstituciones.idgrpusuariorolinstitucion);
 				SqlCmd.Parameters.AddWithValue("@idgrpusuario", _GrpUsrRolesInstituciones.idgrpusuario);
@@ -211,7 +212,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@estado", _GrpUsrRolesInstituciones.estado);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
@@ -242,14 +243,14 @@ namespace proyecto.Models
 		{
 			try
 			{
-				SqlConnection SqlCnn;
-				SqlCnn = Base.AbrirConexionSeguridad();
-				SqlCommand SqlCmd = new SqlCommand("Proc_GrpUsrRolesInstituciones_Delete", SqlCnn);
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_GrpUsrRolesInstituciones_Delete", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@idgrpusuariorolinstitucion", _GrpUsrRolesInstituciones.idgrpusuariorolinstitucion);
 
 				SqlCmd.ExecuteNonQuery();
-				Base.CerrarConexion(SqlCnn);
+				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
