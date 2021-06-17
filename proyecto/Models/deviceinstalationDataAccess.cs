@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using proyecto.Helpers;
 namespace proyecto.Models
 {
@@ -36,25 +37,13 @@ namespace proyecto.Models
 				_log.Traceo(_state.descripcion + " Operacion Consultar deviceinstalation", _state.error.ToString());
 				return new deviceinstalation(_state, lstdeviceinstalation);
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -84,25 +73,13 @@ namespace proyecto.Models
 				_log.Traceo(_state.descripcion + " Operacion Buscar deviceinstalation", _state.error.ToString());
 				return new deviceinstalation(_state, lstdeviceinstalation);
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -134,25 +111,13 @@ namespace proyecto.Models
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Insertar deviceinstalation", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Insertar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -184,25 +149,13 @@ namespace proyecto.Models
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Actualizar deviceinstalation", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Actualizar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -226,25 +179,13 @@ namespace proyecto.Models
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Eliminar deviceinstalation", _state.error.ToString());
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Eliminar de Datos";
-						_log.Error(_state.descripcion, _state.error.ToString());
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;

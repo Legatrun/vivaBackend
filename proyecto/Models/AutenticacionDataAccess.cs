@@ -45,23 +45,11 @@ namespace proyecto.Models
                 _log.Traceo("Sesión de Usuario " + data.Usuario + " iniciada", _state.error.ToString());
                 return new Autenticacion(_state, lstAutenticacion);
             }
-            catch (SqlException XcpSQL)
+            catch (MySqlException XcpSQL)
             {
-                foreach (SqlError se in XcpSQL.Errors)
-                {
-                    if (se.Number <= 50000)
-                    {
-                        _state.error = -1;
-                        _state.descripcion = se.Message;
-                        _log.Error(_state.descripcion,_state.error.ToString());
-                    }
-                    else
-                    {
-                        _state.error = -2;
-                        _state.descripcion = "Error en Operacion de Consulta de Datos";
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                }
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
             }
             catch (Exception Ex)
             {
@@ -111,23 +99,11 @@ namespace proyecto.Models
                 }
                 return _state;
             }
-            catch (SqlException XcpSQL)
+            catch (MySqlException XcpSQL)
             {
-                foreach (SqlError se in XcpSQL.Errors)
-                {
-                    if (se.Number <= 50000)
-                    {
-                        _state.error = -1;
-                        _state.descripcion = se.Message;
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                    else
-                    {
-                        _state.error = -2;
-                        _state.descripcion = "Error en Operacion de Login";
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                }
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
             }
             catch (Exception Ex)
             {
@@ -158,23 +134,11 @@ namespace proyecto.Models
                 _log.Traceo("Sesión de Usuario " + data.Usuario +" Finalizada"+ " iniciada", _state.error.ToString());
                 return _state;
             }
-            catch (SqlException XcpSQL)
+            catch (MySqlException XcpSQL)
             {
-                foreach (SqlError se in XcpSQL.Errors)
-                {
-                    if (se.Number <= 50000)
-                    {
-                        _state.error = -1;
-                        _state.descripcion = se.Message;
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                    else
-                    {
-                        _state.error = -2;
-                        _state.descripcion = "Error en Operacion de Consulta de Datos";
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                }
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
             }
             catch (Exception Ex)
             {
@@ -210,23 +174,11 @@ namespace proyecto.Models
                 _log.Traceo("Usuario Verificado: " + data.Usuario, _state.error.ToString());
                 return new Autenticacion(_state, lstAutenticacion);
             }
-            catch (SqlException XcpSQL)
+            catch (MySqlException XcpSQL)
             {
-                foreach (SqlError se in XcpSQL.Errors)
-                {
-                    if (se.Number <= 50000)
-                    {
-                        _state.error = -1;
-                        _state.descripcion = se.Message;
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                    else
-                    {
-                        _state.error = -2;
-                        _state.descripcion = "Error en Operacion de Consulta de Datos";
-                        _log.Error(_state.descripcion, _state.error.ToString());
-                    }
-                }
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                _log.Error(_state.descripcion, _state.error.ToString());
             }
             catch (Exception Ex)
             {

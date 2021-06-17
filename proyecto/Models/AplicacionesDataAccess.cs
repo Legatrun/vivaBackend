@@ -71,23 +71,13 @@ namespace proyecto.Models
 				_state.descripcion = "Operacion Realizada";
 				return new Aplicaciones(_state, lstAplicaciones);
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+               // _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -119,23 +109,13 @@ namespace proyecto.Models
 				_state.descripcion = "Operacion Realizada";
 				return new Aplicaciones(_state, lstAplicaciones);
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Consulta de Datos";
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+               // _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -164,23 +144,13 @@ namespace proyecto.Models
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Insertar de Datos";
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+               // _log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -204,23 +174,13 @@ namespace proyecto.Models
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Actualizar de Datos";
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                //_log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
@@ -242,23 +202,13 @@ namespace proyecto.Models
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 			}
-			catch (SqlException XcpSQL)
-			{
-				foreach (SqlError se in XcpSQL.Errors)
-				{
-					if (se.Number <= 50000)
-					{
-						_state.error = -1;
-						_state.descripcion = se.Message;
-					}
-					else
-					{
-						_state.error = -2;
-						_state.descripcion = "Error en Operacion de Eliminar de Datos";
-					}
-				}
-			}
-			catch (Exception Ex)
+            catch (MySqlException XcpSQL)
+            {
+                _state.error = -2;
+                _state.descripcion = "Error: " + XcpSQL.Message;
+                //_log.Error(_state.descripcion, _state.error.ToString());
+            }
+            catch (Exception Ex)
 			{
 				_state.error = -3;
 				_state.descripcion = Ex.Message;
