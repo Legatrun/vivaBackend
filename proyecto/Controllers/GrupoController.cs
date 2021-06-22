@@ -18,7 +18,7 @@ namespace proyecto.Controllers
 		[Route("Consultar")]
 		public Grupo Consultar()
 		{
-			return objGrupo.ConsultarGrupo();
+			 return objGrupo.ConsultarGrupo();
 		}
 		[HttpPost]
 		[Route("Buscar")]
