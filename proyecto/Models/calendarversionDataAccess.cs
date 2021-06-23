@@ -66,14 +66,18 @@ namespace proyecto.Models
 				SqlCnn = Base.AbrirConexionMySql();
 				MySqlCommand SqlCmd = new MySqlCommand("Proc_calendarversion_Search", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
-				SqlCmd.Parameters.AddWithValue("@id", _calendarversionData.id);
+				SqlCmd.Parameters.AddWithValue("@ID", _calendarversionData.calendarid);
 				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{
-					calendarversion.Data _calendarversion= new calendarversion.Data();
-					_calendarversion.id = Convert.ToInt32(rdr["id"].ToString());
-					lstcalendarversion.Add(_calendarversion);
-				}
+                    calendarversion.Data _calendarversion = new calendarversion.Data();
+                    _calendarversion.id = Convert.ToInt32(rdr["id"].ToString());
+                    _calendarversion.description = rdr.IsDBNull(rdr.GetOrdinal("description")) ? "" : Convert.ToString(rdr["description"].ToString());
+                    _calendarversion.validfrom = rdr.IsDBNull(rdr.GetOrdinal("validfrom")) ? Convert.ToDateTime("2021-01-01") : Convert.ToDateTime(rdr["validfrom"].ToString());
+                    _calendarversion.validuntil = rdr.IsDBNull(rdr.GetOrdinal("validuntil")) ? Convert.ToDateTime("2021-01-01") : Convert.ToDateTime(rdr["validuntil"].ToString());
+                    _calendarversion.calendarid = rdr.IsDBNull(rdr.GetOrdinal("calendarid")) ? 0 : Convert.ToInt32(rdr["calendarid"].ToString());
+                    lstcalendarversion.Add(_calendarversion);
+                }
 				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
