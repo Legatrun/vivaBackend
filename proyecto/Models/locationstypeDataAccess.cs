@@ -127,7 +127,6 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@updateuser", _locationstype.updateuser);
 
 				SqlCmd.ExecuteNonQuery();
-				_locationstype.id = (System.Int32)pID.Value;
 				Base.CerrarConexionMySql(SqlCnn);
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
