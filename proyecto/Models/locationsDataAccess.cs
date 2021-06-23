@@ -147,10 +147,6 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@description", _locations.description);
 				SqlCmd.Parameters.AddWithValue("@type", _locations.type);
 				SqlCmd.Parameters.AddWithValue("@enabled", _locations.enabled);
-				SqlCmd.Parameters.AddWithValue("@createtimestamp", _locations.createtimestamp);
-				SqlCmd.Parameters.AddWithValue("@updatetimestamp", _locations.updatetimestamp);
-				SqlCmd.Parameters.AddWithValue("@createuser", _locations.createuser);
-				SqlCmd.Parameters.AddWithValue("@updateuser", _locations.updateuser);
 				SqlCmd.Parameters.AddWithValue("@address", _locations.address);
 				SqlCmd.Parameters.AddWithValue("@zipcode", _locations.zipcode);
 				SqlCmd.Parameters.AddWithValue("@city", _locations.city);
