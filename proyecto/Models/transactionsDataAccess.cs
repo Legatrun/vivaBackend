@@ -100,8 +100,8 @@ namespace proyecto.Models
                 SqlCnn = Base.AbrirConexionMySql();
                 MySqlCommand SqlCmd = new MySqlCommand("Proc_transactions_Select_Pagination", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
-                SqlCmd.Parameters.AddWithValue("@initItem", _transactionsData.initItemPagination);
-                SqlCmd.Parameters.AddWithValue("@untilItem", _transactionsData.untilItemPagination);
+                SqlCmd.Parameters.AddWithValue("@initPagination", _transactionsData.initPagination);
+                SqlCmd.Parameters.AddWithValue("@quantityPagination", _transactionsData.quantityPagination);
                 MySqlDataReader rdr = SqlCmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -146,8 +146,8 @@ namespace proyecto.Models
                     _transactions.cardsdispensed = !rdr.IsDBNull(37) ? Convert.ToInt32(rdr["cardsdispensed"].ToString()) : (System.Int32)0;
                     lsttransactions.Add(_transactions);
                 }
-                _transactionsPagination.initItemPagination = _transactionsData.initItemPagination;
-                _transactionsPagination.untilItemPagination = _transactionsData.untilItemPagination;
+                _transactionsPagination.initPagination = _transactionsData.initPagination;
+                _transactionsPagination.quantityPagination = _transactionsData.quantityPagination;
                 _transactionsPagination.itemsPerPagePagination = lsttransactions.Count;
                 _transactionsPagination.itemsLengthPagination = Countertransactions().itemsLengthPagination;
                 Base.CerrarConexionMySql(SqlCnn);

@@ -123,8 +123,8 @@ namespace proyecto.Models
 			public System.String aceptordetail{ get; set; }
 			public System.String changerdetail{ get; set; }
 			public System.String returndetail{ get; set; }
-            public System.Int32 initItemPagination { get; set; }
-            public System.Int32 untilItemPagination { get; set; }
+            public System.Int32 initPagination { get; set; }
+            public System.Int32 quantityPagination { get; set; }
         }
 		public class State
 		{
@@ -133,8 +133,8 @@ namespace proyecto.Models
 		}
         public class Pagination
         {
-            public System.Int32 initItemPagination { get; set; }
-            public System.Int32 untilItemPagination { get; set; }
+            public System.Int32 initPagination { get; set; }
+            public System.Int32 quantityPagination { get; set; }
             public System.Int32 itemsPerPagePagination { get; set; }
             public System.Int32 itemsLengthPagination { get; set; }
         }

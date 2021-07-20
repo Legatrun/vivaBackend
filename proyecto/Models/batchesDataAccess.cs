@@ -287,8 +287,8 @@ namespace proyecto.Models
                 SqlCnn = Base.AbrirConexionMySql();
                 MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Select_Pagination", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
-                SqlCmd.Parameters.AddWithValue("@initItem", _batchesData.initItemPagination);
-                SqlCmd.Parameters.AddWithValue("@untilItem", _batchesData.untilItemPagination);     
+                SqlCmd.Parameters.AddWithValue("@initPagination", _batchesData.initPagination);
+                SqlCmd.Parameters.AddWithValue("@quantityPagination", _batchesData.quantityPagination);     
                 MySqlDataReader rdr = SqlCmd.ExecuteReader();
                 while (rdr.Read())
                 {
@@ -390,8 +390,8 @@ namespace proyecto.Models
 
                     lstbatches.Add(_batches);
                 }
-                _batchesPagination.initItemPagination = _batchesData.initItemPagination;
-                _batchesPagination.untilItemPagination = _batchesData.untilItemPagination;
+                _batchesPagination.initPagination = _batchesData.initPagination;
+                _batchesPagination.quantityPagination = _batchesData.quantityPagination;
                 _batchesPagination.itemsPerPagePagination = lstbatches.Count;
                 _batchesPagination.itemsLengthPagination = Counterbatches().itemsLengthPagination;
                 Base.CerrarConexionMySql(SqlCnn);
