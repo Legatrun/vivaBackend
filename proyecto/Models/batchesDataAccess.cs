@@ -290,6 +290,7 @@ namespace proyecto.Models
                 SqlCmd.Parameters.AddWithValue("@initPagination", _batchesData.initPagination);
                 SqlCmd.Parameters.AddWithValue("@quantityPagination", _batchesData.quantityPagination);     
                 MySqlDataReader rdr = SqlCmd.ExecuteReader();
+                var number = _batchesData.initPagination;
                 while (rdr.Read())
                 {
                     batches.Data _batches = new batches.Data();
@@ -387,13 +388,13 @@ namespace proyecto.Models
                     _batches.aceptordetail = !rdr.IsDBNull(91) ? Convert.ToString(rdr["aceptordetail"].ToString()) : "";
                     _batches.changerdetail = !rdr.IsDBNull(92) ? Convert.ToString(rdr["changerdetail"].ToString()) : "";
                     _batches.returndetail = !rdr.IsDBNull(93) ? Convert.ToString(rdr["returndetail"].ToString()) : "";
-
+                    _batches.numberOfItemPagination = number++;
+                    _batchesPagination.itemsLengthPagination = !rdr.IsDBNull(94) ? Convert.ToInt32(rdr["TotalItems"].ToString()) : 0;
                     lstbatches.Add(_batches);
                 }
                 _batchesPagination.initPagination = _batchesData.initPagination;
                 _batchesPagination.quantityPagination = _batchesData.quantityPagination;
                 _batchesPagination.itemsPerPagePagination = lstbatches.Count;
-                _batchesPagination.itemsLengthPagination = Counterbatches().itemsLengthPagination;
                 Base.CerrarConexionMySql(SqlCnn);
                 _state.error = 0;
                 _state.descripcion = "Operacion Realizada";
@@ -699,41 +700,5 @@ namespace proyecto.Models
 			}
 			return _state;
 		}
-
-        public batches.Pagination Counterbatches()
-        {
-            batches.Pagination _batches = new batches.Pagination();
-            try
-            {
-                _log.Traceo("Ingresa a Metodo Counter batches", "0");
-                MySqlConnection SqlCnn;
-                SqlCnn = Base.AbrirConexionMySql();
-                MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Count", SqlCnn);
-                SqlCmd.CommandType = CommandType.StoredProcedure;
-                MySqlDataReader rdr = SqlCmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    _batches.itemsLengthPagination = Convert.ToInt32(rdr["itemsLength"].ToString());
-                }
-                Base.CerrarConexionMySql(SqlCnn);
-                _state.error = 0;
-                _state.descripcion = "Operacion Realizada";
-                _log.Traceo(_state.descripcion + " Operacion Counter batches", _state.error.ToString());
-                return _batches;
-            }
-            catch (MySqlException XcpSQL)
-            {
-                _state.error = -2;
-                _state.descripcion = "Error: " + XcpSQL.Message;
-                _log.Error(_state.descripcion, _state.error.ToString());
-            }
-            catch (Exception Ex)
-            {
-                _state.error = -3;
-                _state.descripcion = Ex.Message;
-                _log.Error(_state.descripcion, _state.error.ToString());
-            }
-            return _batches;
-        }
     }
 }
