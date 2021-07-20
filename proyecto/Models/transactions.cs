@@ -67,6 +67,7 @@ namespace proyecto.Models
 			public System.DateTime canceledtimestamp{ get; set; }
 			public System.Int32 providersequencenumber{ get; set; }
 			public System.Int32 cardsdispensed{ get; set; }
+            public System.Int32 numberOfItemPagination { get; set; }
             public System.Int32 initPagination { get; set; }
             public System.Int32 quantityPagination { get; set; }
         }

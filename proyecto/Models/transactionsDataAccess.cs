@@ -95,7 +95,7 @@ namespace proyecto.Models
             transactions.Pagination _transactionsPagination = new transactions.Pagination();
             try
             {
-                _log.Traceo("Ingresa a Metodo Consultar por Paghinacion transactions", "0");
+                _log.Traceo("Ingresa a Metodo Consultar por Paginacion transactions", "0");
                 MySqlConnection SqlCnn;
                 SqlCnn = Base.AbrirConexionMySql();
                 MySqlCommand SqlCmd = new MySqlCommand("Proc_transactions_Select_Pagination", SqlCnn);
@@ -103,6 +103,7 @@ namespace proyecto.Models
                 SqlCmd.Parameters.AddWithValue("@initPagination", _transactionsData.initPagination);
                 SqlCmd.Parameters.AddWithValue("@quantityPagination", _transactionsData.quantityPagination);
                 MySqlDataReader rdr = SqlCmd.ExecuteReader();
+                var number = _transactionsData.initPagination;
                 while (rdr.Read())
                 {
                     transactions.Data _transactions = new transactions.Data();
@@ -144,12 +145,13 @@ namespace proyecto.Models
                     _transactions.canceledtimestamp = !rdr.IsDBNull(35) ? Convert.ToDateTime(rdr["canceledtimestamp"].ToString()) : System.DateTime.Now;
                     _transactions.providersequencenumber = !rdr.IsDBNull(36) ? Convert.ToInt32(rdr["providersequencenumber"].ToString()) : (System.Int32)0;
                     _transactions.cardsdispensed = !rdr.IsDBNull(37) ? Convert.ToInt32(rdr["cardsdispensed"].ToString()) : (System.Int32)0;
+                    _transactions.numberOfItemPagination = number++;
+                    _transactionsPagination.itemsLengthPagination = !rdr.IsDBNull(38) ? Convert.ToInt32(rdr["TotalItems"].ToString()) : 0;
                     lsttransactions.Add(_transactions);
                 }
                 _transactionsPagination.initPagination = _transactionsData.initPagination;
                 _transactionsPagination.quantityPagination = _transactionsData.quantityPagination;
                 _transactionsPagination.itemsPerPagePagination = lsttransactions.Count;
-                _transactionsPagination.itemsLengthPagination = Countertransactions().itemsLengthPagination;
                 Base.CerrarConexionMySql(SqlCnn);
                 _state.error = 0;
                 _state.descripcion = "Operacion Realizada";
