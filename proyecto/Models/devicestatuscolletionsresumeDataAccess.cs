@@ -106,8 +106,55 @@ namespace proyecto.Models
             }
             return new devicestatuscolletionsresume(_state);
         }
+		public devicestatuscolletionsresume Consultardevicestatuscolletionsresumeprovider_filter(devicestatuscolletionsresume.Data devicestatuscolletionsresume)
+		{
+			_log.Traceo("Ingresa a Metodo Consultar Consultardevicestatuscolletionsresumeprovider", "0");
+			List<devicestatuscolletionsresume.Data> lstdevicestatuscolletionsresume = new List<devicestatuscolletionsresume.Data>();
+			try
+			{
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_devicestatuscolletionsresume_Select_Filtro", SqlCnn);
+				SqlCmd.CommandType = CommandType.StoredProcedure;
+				SqlCmd.Parameters.AddWithValue("@LOCATIONIDENTIFICATION", devicestatuscolletionsresume.locationidentification);
+				SqlCmd.Parameters.AddWithValue("@DEVICEIDENTIFICATION", devicestatuscolletionsresume.deviceidentification);
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
+				while (rdr.Read())
+				{
+					devicestatuscolletionsresume.Data _devicestatuscolletionsresume = new devicestatuscolletionsresume.Data();
+					_devicestatuscolletionsresume.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
+					_devicestatuscolletionsresume.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
+					_devicestatuscolletionsresume.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
+					_devicestatuscolletionsresume.alarm = Convert.ToString(rdr["alarm"].ToString());
+					_devicestatuscolletionsresume.devicestatus = Convert.ToInt32(rdr["devicestatus"].ToString());
+					_devicestatuscolletionsresume.devicestatusdetail = Convert.ToString(rdr["devicestatusdetail"].ToString());
+					_devicestatuscolletionsresume.operatingmode = Convert.ToString(rdr["operatingmode"].ToString());
+					_devicestatuscolletionsresume.operationname = Convert.ToString(rdr["operationname"].ToString());
 
-        public devicestatuscolletionsresume Buscardevicestatuscolletionsresume(devicestatuscolletionsresume.Data _devicestatuscolletionsresumeData)
+					lstdevicestatuscolletionsresume.Add(_devicestatuscolletionsresume);
+				}
+				Base.CerrarConexionMySql(SqlCnn);
+				_state.error = 0;
+				_state.descripcion = "Operacion Realizada";
+				_log.Traceo(_state.descripcion + " Operacion Consultar Consultardevicestatuscolletionsresumeprovider", _state.error.ToString());
+				return new devicestatuscolletionsresume(_state, lstdevicestatuscolletionsresume);
+			}
+			catch (MySqlException XcpSQL)
+			{
+				_state.error = -2;
+				_state.descripcion = "Error: " + XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
+			}
+			catch (Exception Ex)
+			{
+				_state.error = -3;
+				_state.descripcion = Ex.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
+			}
+			return new devicestatuscolletionsresume(_state);
+		}
+
+		public devicestatuscolletionsresume Buscardevicestatuscolletionsresume(devicestatuscolletionsresume.Data _devicestatuscolletionsresumeData)
 		{
 			List<devicestatuscolletionsresume.Data> lstdevicestatuscolletionsresume = new List<devicestatuscolletionsresume.Data>();
 			try
