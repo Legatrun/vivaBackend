@@ -28,7 +28,14 @@ namespace proyecto.Controllers
             return objbatches.ConsultarPorPaginacion(data);
         }
 
-        [HttpPost]
+		[HttpPost]
+		[Route("ConsultarPorFiltro")]
+		public batches ConsultarPorFiltro([FromBody] batches.Data data)
+		{
+			return objbatches.ConsultarPorPaginacion_filter(data);
+		}
+
+		[HttpPost]
        [Route("Buscar")] 
 		public batches Buscar([FromBody] batches.Data data)
 		{

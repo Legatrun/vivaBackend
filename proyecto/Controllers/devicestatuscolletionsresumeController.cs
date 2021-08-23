@@ -33,7 +33,7 @@ namespace proyecto.Controllers
 			return objdevicestatuscolletionsresume.Consultardevicestatuscolletionsresumeprovider_filter(data);
 		}
 		[HttpPost]
-       [Route("Buscar")]
+        [Route("Buscar")]
 		public devicestatuscolletionsresume Buscar([FromBody] devicestatuscolletionsresume.Data data)
 		{
 			return objdevicestatuscolletionsresume.Buscardevicestatuscolletionsresume(data);

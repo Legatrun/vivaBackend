@@ -415,8 +415,53 @@ namespace proyecto.Models
             }
             return new batches(_state);
         }
+		public batches ConsultarPorPaginacion_filter(batches.Data batchesData)
+		{
+			List<batches.Data> lstbatches = new List<batches.Data>();
+			try
+			{
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_batches_Select_Pagination_Filter", SqlCnn);
+				SqlCmd.CommandType = CommandType.StoredProcedure;
+				SqlCmd.Parameters.AddWithValue("@LOCATIONIDENTIFICATION", batchesData.locationidentification);
+				SqlCmd.Parameters.AddWithValue("@DEVICEIDENTIFICATION", batchesData.deviceidentification);
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
+				while (rdr.Read())
+				{
+					batches.Data _batches = new batches.Data();
+                    _batches.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
+                    _batches.updatetimestamp = Convert.ToDateTime(rdr["updatetimestamp"].ToString());
+                    _batches.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
+					_batches.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
+					_batches.number_ = Convert.ToInt32(rdr["number_"].ToString());
+					_batches.status = Convert.ToInt32(rdr["status"].ToString());
+                    _batches.opentimestamp = Convert.ToDateTime(rdr["opentimestamp"].ToString());
+                    //_batches.closetimestamp = Convert.ToDateTime(rdr["closetimestamp"].ToString());
 
-        public batches.State Insertarbatches(batches.Data _batches)
+                    lstbatches.Add(_batches);
+				}
+				Base.CerrarConexionMySql(SqlCnn);
+				_state.error = 0;
+				_state.descripcion = "Operacion Realizada";
+				_log.Traceo(_state.descripcion + " Operacion Buscar batches", _state.error.ToString());
+				return new batches(_state, lstbatches);
+			}
+			catch (MySqlException XcpSQL)
+			{
+				_state.error = -2;
+				_state.descripcion = "Error: " + XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
+			}
+			catch (Exception Ex)
+			{
+				_state.error = -3;
+				_state.descripcion = Ex.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
+			}
+			return new batches(_state);
+		}
+		public batches.State Insertarbatches(batches.Data _batches)
 		{
 			try
 			{
