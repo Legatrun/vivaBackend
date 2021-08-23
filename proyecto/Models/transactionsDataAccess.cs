@@ -89,21 +89,21 @@ namespace proyecto.Models
 			}
 			return new transactions(_state);
 		}
-        public transactions ConsultartransactionsPorPaginacion(transactions.Data _transactionsData)
+        public transactions ConsultartransactionsPorPaginacion(transactions.Data transactionsData)
         {
+            _log.Traceo("Ingresa a Metodo Consultar por Paginacion transactions", "0");
             List<transactions.Data> lsttransactions = new List<transactions.Data>();
             transactions.Pagination _transactionsPagination = new transactions.Pagination();
             try
             {
-                _log.Traceo("Ingresa a Metodo Consultar por Paginacion transactions", "0");
                 MySqlConnection SqlCnn;
                 SqlCnn = Base.AbrirConexionMySql();
                 MySqlCommand SqlCmd = new MySqlCommand("Proc_transactions_Select_Pagination", SqlCnn);
                 SqlCmd.CommandType = CommandType.StoredProcedure;
-                SqlCmd.Parameters.AddWithValue("@initPagination", _transactionsData.initPagination);
-                SqlCmd.Parameters.AddWithValue("@quantityPagination", _transactionsData.quantityPagination);
+                SqlCmd.Parameters.AddWithValue("@initPagination", transactionsData.initPagination);
+                SqlCmd.Parameters.AddWithValue("@quantityPagination", transactionsData.quantityPagination);
                 MySqlDataReader rdr = SqlCmd.ExecuteReader();
-                var number = _transactionsData.initPagination;
+                var number = transactionsData.initPagination;
                 while (rdr.Read())
                 {
                     transactions.Data _transactions = new transactions.Data();
@@ -149,8 +149,8 @@ namespace proyecto.Models
                     _transactionsPagination.itemsLengthPagination = !rdr.IsDBNull(38) ? Convert.ToInt32(rdr["TotalItems"].ToString()) : 0;
                     lsttransactions.Add(_transactions);
                 }
-                _transactionsPagination.initPagination = _transactionsData.initPagination;
-                _transactionsPagination.quantityPagination = _transactionsData.quantityPagination;
+                _transactionsPagination.initPagination = transactionsData.initPagination;
+                _transactionsPagination.quantityPagination = transactionsData.quantityPagination;
                 _transactionsPagination.itemsPerPagePagination = lsttransactions.Count;
                 Base.CerrarConexionMySql(SqlCnn);
                 _state.error = 0;
@@ -173,7 +173,85 @@ namespace proyecto.Models
             return new transactions(_state);
         }
 
-        public transactions Buscartransactions(transactions.Data _transactionsData)
+
+		public transactions ConsultartransactionsPorFiltro(transactions.Data _transactionsData)
+		{
+			List<transactions.Data> lsttransactions = new List<transactions.Data>();
+			try
+			{
+				_log.Traceo("Ingresa a Metodo Consultar por Paginacion transactions", "0");
+				MySqlConnection SqlCnn;
+				SqlCnn = Base.AbrirConexionMySql();
+				MySqlCommand SqlCmd = new MySqlCommand("Proc_transactions_Select_Filter", SqlCnn);
+				SqlCmd.CommandType = CommandType.StoredProcedure;
+				SqlCmd.Parameters.AddWithValue("@LOCATIONIDENTIFICATION", _transactionsData.locationidentification);
+				SqlCmd.Parameters.AddWithValue("@DEVICEIDENTIFICATION", _transactionsData.deviceidentification);
+				MySqlDataReader rdr = SqlCmd.ExecuteReader();
+				while (rdr.Read())
+				{
+					transactions.Data _transactions = new transactions.Data();
+					_transactions.id = Convert.ToInt32(rdr["id"].ToString());
+					_transactions.createtimestamp = !rdr.IsDBNull(1) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : System.DateTime.Now;
+					_transactions.updatetimestamp = !rdr.IsDBNull(2) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : System.DateTime.Now;
+					_transactions.deviceidentification = !rdr.IsDBNull(3) ? Convert.ToString(rdr["deviceidentification"].ToString()) : "";
+					_transactions.locationidentification = !rdr.IsDBNull(4) ? Convert.ToString(rdr["locationidentification"].ToString()) : "";
+					_transactions.servicename = !rdr.IsDBNull(5) ? Convert.ToString(rdr["servicename"].ToString()) : "";
+					_transactions.operationname = !rdr.IsDBNull(6) ? Convert.ToString(rdr["operationname"].ToString()) : "";
+					_transactions.sequencenumber = !rdr.IsDBNull(7) ? Convert.ToInt32(rdr["sequencenumber"].ToString()) : (System.Int32)0;
+					_transactions.transporttimestamp = !rdr.IsDBNull(8) ? Convert.ToDateTime(rdr["transporttimestamp"].ToString()) : System.DateTime.Now;
+					_transactions.payloadrequest = !rdr.IsDBNull(9) ? Convert.ToString(rdr["payloadrequest"].ToString()) : "";
+					_transactions.payloadanswer = !rdr.IsDBNull(10) ? Convert.ToString(rdr["payloadanswer"].ToString()) : "";
+					_transactions.resultcode = !rdr.IsDBNull(11) ? Convert.ToInt32(rdr["resultcode"].ToString()) : (System.Int32)0;
+					_transactions.resultmessage = !rdr.IsDBNull(12) ? Convert.ToString(rdr["resultmessage"].ToString()) : "";
+					_transactions.provideridentification = !rdr.IsDBNull(13) ? Convert.ToString(rdr["provideridentification"].ToString()) : "";
+					_transactions.providertransactionid = !rdr.IsDBNull(14) ? Convert.ToString(rdr["providertransactionid"].ToString()) : "";
+					_transactions.devicetransactionid = !rdr.IsDBNull(15) ? Convert.ToString(rdr["devicetransactionid"].ToString()) : "";
+					_transactions.providerresultcode = !rdr.IsDBNull(16) ? Convert.ToString(rdr["providerresultcode"].ToString()) : "";
+					_transactions.providerresultmessage = !rdr.IsDBNull(17) ? Convert.ToString(rdr["providerresultmessage"].ToString()) : "";
+					_transactions.batchnumber = !rdr.IsDBNull(18) ? Convert.ToInt32(rdr["batchnumber"].ToString()) : (System.Int32)0;
+					_transactions.syncstatus = !rdr.IsDBNull(19) ? Convert.ToInt32(rdr["syncstatus"].ToString()) : (System.Int32)0;
+					_transactions.synctimestamp = !rdr.IsDBNull(20) ? Convert.ToDateTime(rdr["synctimestamp"].ToString()) : System.DateTime.Now;
+					_transactions.deviceidentificationprovider = !rdr.IsDBNull(21) ? Convert.ToString(rdr["deviceidentificationprovider"].ToString()) : "";
+					_transactions.locationidentificationprovider = !rdr.IsDBNull(22) ? Convert.ToString(rdr["locationidentificationprovider"].ToString()) : "";
+					_transactions.customernumber = !rdr.IsDBNull(23) ? Convert.ToString(rdr["customernumber"].ToString()) : "";
+					_transactions.amount = !rdr.IsDBNull(24) ? Convert.ToDecimal(rdr["amount"].ToString()) : (System.Decimal)0;
+					_transactions.amountentered = !rdr.IsDBNull(25) ? Convert.ToDecimal(rdr["amountentered"].ToString()) : (System.Decimal)0;
+					_transactions.amountreturned = !rdr.IsDBNull(26) ? Convert.ToDecimal(rdr["amountreturned"].ToString()) : (System.Decimal)0;
+					_transactions.amountticketundelivered = !rdr.IsDBNull(27) ? Convert.ToDecimal(rdr["amountticketundelivered"].ToString()) : (System.Decimal)0;
+					_transactions.operationstatus = !rdr.IsDBNull(28) ? Convert.ToInt32(rdr["operationstatus"].ToString()) : (System.Int32)0;
+					_transactions.amountentereddetail = !rdr.IsDBNull(29) ? Convert.ToString(rdr["amountentereddetail"].ToString()) : "";
+					_transactions.amountreturneddetail = !rdr.IsDBNull(30) ? Convert.ToString(rdr["amountreturneddetail"].ToString()) : "";
+					_transactions.amountticketundelivereddetail = !rdr.IsDBNull(31) ? Convert.ToString(rdr["amountticketundelivereddetail"].ToString()) : "";
+					_transactions.transactionidentification = !rdr.IsDBNull(32) ? Convert.ToString(rdr["transactionidentification"].ToString()) : "";
+					_transactions.customercode = !rdr.IsDBNull(33) ? Convert.ToString(rdr["customercode"].ToString()) : "";
+					_transactions.canceled = !rdr.IsDBNull(34) ? Convert.ToInt32(rdr["canceled"].ToString()) : (System.Int32)0;
+					_transactions.canceledtimestamp = !rdr.IsDBNull(35) ? Convert.ToDateTime(rdr["canceledtimestamp"].ToString()) : System.DateTime.Now;
+					_transactions.providersequencenumber = !rdr.IsDBNull(36) ? Convert.ToInt32(rdr["providersequencenumber"].ToString()) : (System.Int32)0;
+					_transactions.cardsdispensed = !rdr.IsDBNull(37) ? Convert.ToInt32(rdr["cardsdispensed"].ToString()) : (System.Int32)0;
+					lsttransactions.Add(_transactions);
+				}
+				Base.CerrarConexionMySql(SqlCnn);
+				_state.error = 0;
+				_state.descripcion = "Operacion Realizada";
+				_log.Traceo(_state.descripcion + " Operacion Buscar batches", _state.error.ToString());
+				return new transactions(_state, lsttransactions);
+			}
+			catch (MySqlException XcpSQL)
+			{
+				_state.error = -2;
+				_state.descripcion = "Error: " + XcpSQL.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
+			}
+			catch (Exception Ex)
+			{
+				_state.error = -3;
+				_state.descripcion = Ex.Message;
+				_log.Error(_state.descripcion, _state.error.ToString());
+			}
+			return new transactions(_state);
+		}
+
+		public transactions Buscartransactions(transactions.Data _transactionsData)
 		{
 			List<transactions.Data> lsttransactions = new List<transactions.Data>();
 			try

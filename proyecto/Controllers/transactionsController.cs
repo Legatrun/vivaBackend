@@ -20,13 +20,22 @@ namespace proyecto.Controllers
 		{
 			return objtransactions.Consultartransactions();
 		}
+
         [HttpPost]
         [Route("ConsultarPorPaginacion")]
         public transactions ConsultarPorPaginacion([FromBody] transactions.Data data)
         {
             return objtransactions.ConsultartransactionsPorPaginacion(data);
         }
-        [HttpPost]
+
+		[HttpPost]
+		[Route("ConsultarPorFiltro")]
+		public transactions ConsultarPorFiltro([FromBody] transactions.Data data)
+		{
+			return objtransactions.ConsultartransactionsPorFiltro(data);
+		}
+
+		[HttpPost]
        [Route("Buscar")]
 		public transactions Buscar([FromBody] transactions.Data data)
 		{
