@@ -418,6 +418,7 @@ namespace proyecto.Models
 		public batches ConsultarPorPaginacion_filter(batches.Data batchesData)
 		{
 			List<batches.Data> lstbatches = new List<batches.Data>();
+			batches.Pagination _batchesPagination = new batches.Pagination();
 			try
 			{
 				MySqlConnection SqlCnn;
@@ -427,6 +428,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@LOCATIONIDENTIFICATION", batchesData.locationidentification);
 				SqlCmd.Parameters.AddWithValue("@DEVICEIDENTIFICATION", batchesData.deviceidentification);
 				MySqlDataReader rdr = SqlCmd.ExecuteReader();
+				var number = batchesData.initPagination;
 				while (rdr.Read())
 				{
 					batches.Data _batches = new batches.Data();
@@ -436,16 +438,20 @@ namespace proyecto.Models
 					_batches.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
 					_batches.number_ = Convert.ToInt32(rdr["number_"].ToString());
 					_batches.status = Convert.ToInt32(rdr["status"].ToString());
-                    _batches.opentimestamp = Convert.ToDateTime(rdr["opentimestamp"].ToString());
-                    //_batches.closetimestamp = Convert.ToDateTime(rdr["closetimestamp"].ToString());
-
-                    lstbatches.Add(_batches);
+                    _batches.opentimestamp = !rdr.IsDBNull(rdr.GetOrdinal("opentimestamp")) ? Convert.ToDateTime(rdr["opentimestamp"].ToString()) : Convert.ToDateTime("01/01/2000");
+					_batches.closetimestamp = !rdr.IsDBNull(rdr.GetOrdinal("closetimestamp")) ? Convert.ToDateTime(rdr["closetimestamp"].ToString()) : Convert.ToDateTime(rdr["opentimestamp"].ToString());
+					_batches.numberOfItemPagination = number++;
+					_batchesPagination.itemsLengthPagination = !rdr.IsDBNull(rdr.GetOrdinal("TotalItems")) ? Convert.ToInt32(rdr["TotalItems"].ToString()) : 0;
+					lstbatches.Add(_batches);
 				}
 				Base.CerrarConexionMySql(SqlCnn);
+				_batchesPagination.initPagination = batchesData.initPagination;
+				_batchesPagination.quantityPagination = batchesData.quantityPagination;
+				_batchesPagination.itemsPerPagePagination = lstbatches.Count;
 				_state.error = 0;
 				_state.descripcion = "Operacion Realizada";
 				_log.Traceo(_state.descripcion + " Operacion Buscar batches", _state.error.ToString());
-				return new batches(_state, lstbatches);
+				return new batches(_state, lstbatches, _batchesPagination);
 			}
 			catch (MySqlException XcpSQL)
 			{
