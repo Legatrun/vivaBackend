@@ -432,11 +432,11 @@ namespace proyecto.Models
 				while (rdr.Read())
 				{
 					batches.Data _batches = new batches.Data();
-                    _batches.createtimestamp = Convert.ToDateTime(rdr["createtimestamp"].ToString());
-                    _batches.updatetimestamp = Convert.ToDateTime(rdr["updatetimestamp"].ToString());
-                    _batches.deviceidentification = Convert.ToString(rdr["deviceidentification"].ToString());
-					_batches.locationidentification = Convert.ToString(rdr["locationidentification"].ToString());
-					_batches.number_ = Convert.ToInt32(rdr["number_"].ToString());
+					_batches.createtimestamp = !rdr.IsDBNull(rdr.GetOrdinal("createtimestamp")) ? Convert.ToDateTime(rdr["createtimestamp"].ToString()) : Convert.ToDateTime("01/01/2000");
+					_batches.updatetimestamp = !rdr.IsDBNull(rdr.GetOrdinal("updatetimestamp")) ? Convert.ToDateTime(rdr["updatetimestamp"].ToString()) : Convert.ToDateTime("01/01/2000");
+					_batches.deviceidentification = !rdr.IsDBNull(rdr.GetOrdinal("deviceidentification")) ? Convert.ToString(rdr["deviceidentification"].ToString()) : "";
+					_batches.locationidentification = !rdr.IsDBNull(rdr.GetOrdinal("deviceidentification")) ? Convert.ToString(rdr["locationidentification"].ToString()):"";
+					_batches.number_ = !rdr.IsDBNull(rdr.GetOrdinal("number_")) ? Convert.ToInt32(rdr["number_"].ToString()) : (System.Int32)0;
 					_batches.status = Convert.ToInt32(rdr["status"].ToString());
                     _batches.opentimestamp = !rdr.IsDBNull(rdr.GetOrdinal("opentimestamp")) ? Convert.ToDateTime(rdr["opentimestamp"].ToString()) : Convert.ToDateTime("01/01/2000");
 					_batches.closetimestamp = !rdr.IsDBNull(rdr.GetOrdinal("closetimestamp")) ? Convert.ToDateTime(rdr["closetimestamp"].ToString()) : Convert.ToDateTime(rdr["opentimestamp"].ToString());

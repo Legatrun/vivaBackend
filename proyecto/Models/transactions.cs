@@ -34,6 +34,8 @@ namespace proyecto.Models
 			public System.DateTime updatetimestamp{ get; set; }
 			public System.String deviceidentification{ get; set; }
 			public System.String locationidentification{ get; set; }
+			public System.DateTime opentimestamp { get; set; }
+			public System.DateTime closetimestamp { get; set; }
 			public System.String servicename{ get; set; }
 			public System.String operationname{ get; set; }
 			public System.Int32 sequencenumber{ get; set; }
