@@ -427,6 +427,8 @@ namespace proyecto.Models
 				SqlCmd.CommandType = CommandType.StoredProcedure;
 				SqlCmd.Parameters.AddWithValue("@LOCATIONIDENTIFICATION", batchesData.locationidentification);
 				SqlCmd.Parameters.AddWithValue("@DEVICEIDENTIFICATION", batchesData.deviceidentification);
+				SqlCmd.Parameters.AddWithValue("@INITPAGINATION", batchesData.initPagination);
+				SqlCmd.Parameters.AddWithValue("@QUANTITYPAGINATION", batchesData.quantityPagination);
 				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				var number = batchesData.initPagination;
 				while (rdr.Read())

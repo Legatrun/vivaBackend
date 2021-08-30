@@ -15,7 +15,7 @@ namespace proyecto.Models
 		private Encriptador _crypto = new Encriptador();
 		private AdministradorParametros.ActiveDirectoryParams _params = new AdministradorParametros.ActiveDirectoryParams();
 		private Conexion Base = new Conexion();
-		public devices Consultardevices()
+		public devices Consultardevices(devices.Data _devicesData)
 		{
 		    _log.Traceo("Ingresa a Metodo Consultar devices", "0");
 			List<devices.Data> lstdevices = new List<devices.Data>();
@@ -25,6 +25,7 @@ namespace proyecto.Models
 				SqlCnn = Base.AbrirConexionMySql();
 				MySqlCommand SqlCmd = new MySqlCommand("Proc_devices_Select", SqlCnn);
 				SqlCmd.CommandType = CommandType.StoredProcedure;
+				SqlCmd.Parameters.AddWithValue("@LOCATIONIDENTIFICATION", _devicesData.locationidentification);
 				MySqlDataReader rdr = SqlCmd.ExecuteReader();
 				while (rdr.Read())
 				{

@@ -16,9 +16,9 @@ namespace proyecto.Controllers
 
        [HttpPost]
        [Route("Consultar")]
-		public devices Consultar()
+		public devices Consultar([FromBody] devices.Data data)
 		{
-			return objdevices.Consultardevices();
+			return objdevices.Consultardevices(data);
 		}
        [HttpPost]
        [Route("Buscar")]
