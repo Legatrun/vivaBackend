@@ -444,6 +444,7 @@ namespace proyecto.Models
 					_batches.closetimestamp = !rdr.IsDBNull(rdr.GetOrdinal("closetimestamp")) ? Convert.ToDateTime(rdr["closetimestamp"].ToString()) : Convert.ToDateTime(rdr["opentimestamp"].ToString());
 					_batches.numberOfItemPagination = number++;
 					_batchesPagination.itemsLengthPagination = !rdr.IsDBNull(rdr.GetOrdinal("TotalItems")) ? Convert.ToInt32(rdr["TotalItems"].ToString()) : 0;
+					//_batchesPagination.itemsLengthPagination = !rdr.IsDBNull(rdr.GetOrdinal("number_")) ? Convert.ToInt32(rdr["number_"].ToString()) : (System.Int32)0;
 					lstbatches.Add(_batches);
 				}
 				Base.CerrarConexionMySql(SqlCnn);

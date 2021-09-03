@@ -188,6 +188,7 @@ namespace proyecto.Models
 				SqlCmd.Parameters.AddWithValue("@DEVICEIDENTIFICATION", transactionsData.deviceidentification);
                 SqlCmd.Parameters.AddWithValue("@OPENTIMESTAMP", transactionsData.opentimestamp);
                 SqlCmd.Parameters.AddWithValue("@CLOSETIMESTAMP", transactionsData.closetimestamp);
+                SqlCmd.Parameters.AddWithValue("@OPERATIONNAME", transactionsData.operationname);
 				SqlCmd.Parameters.AddWithValue("@initPagination", transactionsData.initPagination);
 				SqlCmd.Parameters.AddWithValue("@quantityPagination", transactionsData.quantityPagination);
 				MySqlDataReader rdr = SqlCmd.ExecuteReader();
